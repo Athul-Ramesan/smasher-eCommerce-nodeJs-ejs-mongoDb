@@ -1,0 +1,88 @@
+<%-include ('../layouts/adminHeader') %>
+    <%-include ('../partials/adminSidebar') %>
+
+        <style>
+            .checkout .form-control {
+                border-radius: 0px !important;
+            }
+
+            .checkout .form-control:focus {
+                border: 1px solid #000 !important;
+                box-shadow: none !important;
+            }
+
+            .checkout .nav-link {
+                border: 1px solid #000;
+                border-radius: 0px;
+                margin-bottom: 8px;
+            }
+
+            .checkout .tab-content {
+                padding-right: 10px;
+            }
+        </style>
+
+        <div class="py-3 py-md-4 checkout">
+            <div class="container">
+                <div class="d-flex justify-content-between">
+                    <h4>Return requests</h4>
+
+                </div>
+
+                <hr>
+
+                <div class="row">
+
+                    <% orders.reverse().forEach((order, index)=> { %>
+                        <a href="/admin/orderDetails/<%= order._id %>" style="text-decoration: none;">
+                            <div class="col-md-12 mb-3">
+                                <div class="card shadow">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <h5 class="card-title text-muted m-2">OrderID. <%= order._id %>
+                                        </h5>
+
+                                      
+                                                   <div>
+                                                    <a href="/admin/acceptReturnRequest/<%= order._id %>"
+                                                        class=" btn btn-success cancel-order">Accept</a>
+                                                    <a href="/admin/rejectReturnRequest/<%= order._id %>"
+                                                        class=" btn btn-danger cancel-order">Reject</a>
+                                                   </div>
+                                                  
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex">
+                                            <% dates?.reverse().forEach((date)=> { %>
+                                            <span class="m-1 font-weight-bold">Order Date: <%= date %>
+                                                    </span>
+                                                     <% }) %>
+                                        </div>
+                                        <div class="d-flex">
+                                            <span class="m-1 font-weight-bold">Total Items: <%= order.items.length %>
+                                                    </span>
+                                        </div>
+                                        <!-- <div class="d-flex">
+                                <span class="m-1 font-weight-bold">Expected delivery Date: <%= order.deliveryDate %></span>
+                            </div> -->
+                                        <span class="m-1 font-weight-bold">Status :<%= order.status %></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <% }) %>
+                </div>
+
+
+
+
+
+
+
+
+                <script>
+
+                  
+
+
+                </script>
+<%-include ('../layouts/adminFooter') %>

@@ -1,0 +1,34 @@
+<%-include ('../layouts/header') %>
+    <%-include ('../partials/adminSidebar') %>
+    
+        
+  <section style="height: 100vh;">
+    <div class="container-fluid ">
+        <div class="row  border-start ">
+            <main class="px-md-4 icons ">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-md-8 text-center m-5 p-5">
+                        <h1 class="mt-5">EDIT BRAND</h1>
+                        <form action="/admin/editBrand/<%=brand._id%>" method="post" 
+                            class="bg-white">
+                            <div class="form-group ms-5 me-5 pt-5">
+                                <label class="mb-3" for="brandname">Brand Name:</label>
+                                <input  type="text" value="<%=brand.name%>" name="name"
+                                    class="form-control bg-light" id="categoryName"
+                                    placeholder="Enter Brand name" required />
+                            </div><br><br>
+                           
+                            <button type="submit" class="btn btn-dark m-3">Edit Category</button>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+  </section>
+        
+
+
+
+
+  <%-include ('../layouts/adminFooter') %>

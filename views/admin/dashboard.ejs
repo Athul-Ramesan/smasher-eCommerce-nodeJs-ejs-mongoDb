@@ -1,0 +1,430 @@
+<%-include ('../layouts/header') %>
+  <%-include ('../partials/adminSidebar') %>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+
+    <section class="content-main">
+      <div class="content-header d-flex justify-content-between">
+        <h4 class="content-title ms-3 mt-3 text-decoration-underline" ;">DASHBOARD</h4>
+        <button class="btn btn-outline-info me-3 mt-3 mb-2 " data-bs-toggle="modal" data-bs-target="#salesReportModal"><i class="fa fa-download"></i>Sales
+          Report</button>
+      </div>
+      <div class="modal" id="salesReportModal" tabindex="-1" role="dialog" aria-labelledby="salesReportModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="salesReportModalLabel">Sales Report</h5>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="salesReportForm" method="post" action="/admin/downloadSalesReport">
+                <div class="form-group">
+                  <label for="startDate">Start Date:</label>
+                  <input type="date" name="startDate" class="form-control" id="startDate" required>
+                </div>
+                <div class="form-group">
+                  <label for="endDate">End Date:</label>
+                  <input type="date" name="endDate" class="form-control" id="endDate" required>
+                </div>
+                <div class="form-group">
+                  <label>File Format:</label>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="fileFormat" id="pdf" value="pdf" checked>
+                    <label class="form-check-label" for="pdf">
+                      PDF
+                    </label>
+                  </div>
+                  <!-- <div class="form-check">
+                    <input class="form-check-input" type="radio" name="fileFormat" id="excel" value="excel">
+                    <label class="form-check-label" for="excel">
+                      Excel
+                    </label>  
+                  </div> -->
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Download</button>
+
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="text-end">
+        
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="card card-body mb-4 shadow-sm">
+              <article class="icontext">
+                <span class="icon icon-sm rounded-circle alert-primary">
+                  <i class="fas fa-chart-bar"></i> <!-- Replace with your desired Font Awesome icon -->
+                </span>
+                <div class="text">
+                  <h6 class="mb-1">Total Sales</h6>
+                  <span id="totalSales"> </span>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="card card-body mb-4 shadow-sm">
+              <article class="icontext">
+                <span class="icon icon-sm rounded-circle alert-primary">
+                  <i class="fas fa-chart-bar"></i> <!-- Replace with your desired Font Awesome icon -->
+                </span>
+                <div class="text">
+                  <h6 class="mb-1">Total Orders</h6>
+                  <span id="totalOrders"></span>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="card card-body mb-4 shadow-sm">
+              <article class="icontext">
+                <span class="icon icon-sm rounded-circle alert-primary">
+                  <i class="fas fa-chart-bar"></i> <!-- Replace with your desired Font Awesome icon -->
+                </span>
+                <div class="text">
+                  <h6 class="mb-1">Total Products Sold</h6>
+                  <span>
+                    <%=totalProductsCount %>
+                  </span>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- chart starts -->
+      <div class="card container">
+        <div class="row g-5">
+          <div class="card-body col-md-5 ">
+            <select name="" id="timePeriodOption">
+
+              <option value="byDay" id="byDayOption">By Day</option>
+              <option value="byWeek" id="byWeekOption">By Week</option>
+              <option value="byYear" id="byYearOption">By Year</option>
+            </select>
+            <canvas class="" id="salesChart" width="400" height="200"></canvas>
+          </div>
+          <div class="card-body col-md-5 ">
+            <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
+          </div>
+        </div>
+
+      </div>
+      <!-- chart ends -->
+
+      <div class="">
+
+        <div class="card container mt-5">
+          <div class="card-header pb-0 p-3">
+            <div class="d-flex justify-content-between">
+              <h3 class="">Best Selling Products</h3>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table align-items-center ">
+              <% let n=(bestSellingProducts.length> 5) ? 5 : bestSellingProducts.length %>
+                <% for(let i=0 ; i<n ; i++){ %>
+
+                  <tbody>
+
+                    <tr>
+                      <td class="w-30">
+                        <div class="d-flex px-2 py-1 align-items-center">
+                          <div class="image-container">
+                            <img class="img-fluid" src="/uploads/<%= bestSellingProducts[i]?.productImage1 %>"
+                              alt="product image" width="100" height="50">
+
+                          </div>
+                          <div class="ms-4">
+
+                            <h6 class="text-sm mb-0">
+                              <%= bestSellingProducts[i]?.name %>
+                            </h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+
+
+
+                        <div class="text-center">
+                          <p class="text-xs font-weight-bold mb-0">Quantity:</p>
+                          <h6 class="text-sm mb-0">
+                            <%= totalProducts[i] %>
+                          </h6>
+                        </div>
+
+                      </td>
+                      <td>
+                        <div class="text-center">
+                          <p class="text-xs font-weight-bold mb-0">Price</p>
+                          <h6 class="text-sm mb-0">
+                            <%= bestSellingProducts[i]?.price %>
+                          </h6>
+                        </div>
+                      </td>
+                      <td class=" text-sm">
+                        <div class="text-center">
+                          <p class="text-xs font-weight-bold mb-0">Sale Amount:</p>
+                          <h6 class="text-sm mb-0">₹<%= bestSellingProducts[i]?.price * totalProducts[i] %>
+                          </h6>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+
+                  </tbody>
+                  <% }%>
+
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script>
+
+      document.addEventListener('DOMContentLoaded', () => {
+        updateSalesGraph('byDay');
+        document.getElementById('timePeriodOption').addEventListener('change', (event) => {
+          const selectedValue = event.target.value
+          updateSalesGraph(selectedValue);
+        });
+
+
+        async function updateSalesGraph(timePeriod) {
+          console.log(timePeriod, 'timeee');
+          const salesData = await fetchSalesData(timePeriod)
+
+          document.getElementById('totalSales').innerHTML = `₹ ${parseInt(salesData.totalRevenue)}`
+          document.getElementById('totalOrders').innerHTML = salesData.totalSales  //total orders
+          if (window.chart1) {
+            window.chart1.destroy()
+          }
+
+          const ctx = document.getElementById('salesChart').getContext('2d');
+          window.chart1 = new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: salesData.timePeriods,
+              datasets: [
+                {
+                  label: 'Sales',
+                  data: salesData.dataPerPeriod,
+                  backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                  borderColor: 'rgba(75, 192, 192, 1)',
+                  borderWidth: 2
+                },
+
+              ]
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+
+
+          if (window.chart2) {
+            window.chart2.destroy()
+          }
+
+          const ctx1 = document.getElementById("chart-line").getContext("2d");
+
+          var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
+
+          gradientStroke1.addColorStop(1, 'rgba(94, 114, 228, 0.2)');
+          gradientStroke1.addColorStop(0.2, 'rgba(94, 114, 228, 0.0)');
+          gradientStroke1.addColorStop(0, 'rgba(94, 114, 228, 0)');
+          window.chart2 = new Chart(ctx1, {
+            type: "line",
+            data: {
+              labels: salesData.timePeriods,
+              datasets: [{
+                label: "Orders",
+                tension: 0.4,
+                borderWidth: 0,
+                pointRadius: 0,
+                borderColor: "#5e72e4",
+                backgroundColor: gradientStroke1,
+                borderWidth: 3,
+                fill: true,
+                data: salesData.salesPerPeriod,
+                maxBarThickness: 6
+
+              }],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  display: false,
+                }
+              },
+              interaction: {
+                intersect: false,
+                mode: 'index',
+              },
+              scales: {
+                y: {
+                  grid: {
+                    drawBorder: false,
+                    display: true,
+                    drawOnChartArea: true,
+                    drawTicks: false,
+                    borderDash: [5, 5]
+                  },
+                  ticks: {
+                    display: true,
+                    padding: 10,
+                    color: '#fbfbfb',
+                    font: {
+                      size: 11,
+                      family: "Open Sans",
+                      style: 'normal',
+                      lineHeight: 2
+                    },
+                  }
+                },
+                x: {
+                  grid: {
+                    drawBorder: false,
+                    display: false,
+                    drawOnChartArea: false,
+                    drawTicks: false,
+                    borderDash: [5, 5]
+                  },
+                  ticks: {
+                    display: true,
+                    color: '#ccc',
+                    padding: 20,
+                    font: {
+                      size: 11,
+                      family: "Open Sans",
+                      style: 'normal',
+                      lineHeight: 2
+                    },
+                  }
+                },
+              },
+            },
+          });
+
+        }
+        async function fetchSalesData(timePeriod) {
+          console.log(timePeriod, 'imeeee');
+          try {
+            if (timePeriod === 'byDay') {
+              response = await fetch('/admin/countOrdersByDay')
+            }
+            if (timePeriod === 'byWeek') {
+              response = await fetch('/admin/countOrdersByWeek')
+            }
+            if (timePeriod === 'byYear') {
+              response = await fetch('/admin/countOrdersByYear')
+            }
+
+            if (!response.ok) {
+              throw new Error('Network response error')
+            }
+            const data = await response.json()
+            console.log(data, 'dataaaaaaaa');
+            return data
+          } catch (error) {
+            console.log(error);          //////handle error here
+          }
+
+
+        }
+
+        // $('#salesReportForm').submit(e=>{
+        //   e.preventDefault();
+        //  console.log('hereee');
+        //   $.ajax({
+        //     url: '/admin/downloadSalesReport',
+        //     type: 'POST',
+        //     data : $('#salesReportForm').serialize(),
+        //     success : (response)=>{
+        //       console.log(response);
+        //     }
+        //   })
+        // })
+
+        document.getElementById('salesReportForm').addEventListener('submit', (e) => {
+  
+          e.preventDefault()
+          const startDate = new Date(document.getElementById('startDate').value)
+          const endDate = new Date(document.getElementById('endDate').value)
+          const currentDate = new Date();
+          const nextDay = new Date();
+          
+
+          if (startDate > currentDate || endDate > nextDay.setDate(currentDate.getDate() + 1)) {
+            console.log('inside if');
+            Toastify({
+
+              text: 'You cannot select a future date.',
+
+              duration: 3000,
+              position: "center",
+              className: "info",
+              style: {
+                background: "red",
+              }
+
+            }).showToast()
+
+          } else if (startDate > endDate) {
+            Toastify({
+
+              text: 'Start date should be less than end date',
+
+              duration: 3000,
+              position: "center",
+              className: "info",
+              style: {
+                background: "red",
+              }
+
+            }).showToast()
+          } else {
+            document.getElementById('salesReportForm').submit();
+          }
+        })
+
+
+
+
+      })
+    </script>
+
+
+
+
+
+
+
+    <%-include ('../layouts/adminFooter') %>

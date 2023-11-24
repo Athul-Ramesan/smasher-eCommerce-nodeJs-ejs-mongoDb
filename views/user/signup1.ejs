@@ -1,0 +1,126 @@
+<%- include('../layouts/header') %>
+
+  <body>
+    <div class="main-navbar shadow-sm ">
+      <div class="top-navbar">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="d-flex justify-content-between">
+              <a class="navbar-brand" href="/home">
+                <img src="/images/logo.png" style="max-height: 70px;" alt="logo">
+              </a>
+              <a href="/login" class="text-decoration-none text-white pt-3 pe-5">Login</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row d-flex justify-content-center align-items-center ">
+        <div class="col-lg-8 col-xl-8 ">
+          <div class="card text-black">
+            <div class="card-body p-md-5">
+              <div class="row justify-content-center mt-5">
+                <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+                  <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+                  <% if (message) { %>
+                    <span class="text-danger ms-5 m-2">
+                      <%= message.userSignupError %>
+                    </span>
+                    <% } %>
+                      <form class="" action="/signup" method="post" id="registration-form">
+                        <div class="ms-5">
+                          <label class="form-label" for="form3Example1c">Your Name</label>
+                        </div>
+                        <div class="d-flex flex-row align-items-center mb-4 ms-5">
+                          <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                          <div class="form-outline flex-fill mb-0">
+                            <input type="text" id="form3Example1c" name="name" class="form-control" />
+                          </div>
+                        </div>
+                        <div class="ms-5">
+                          <label class="form-label" for="form3Example3c">Your Email</label>
+                        </div>
+                        <div class="d-flex flex-row align-items-center mb-4 ms-5">
+                          <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                          <div class="form-outline flex-fill mb-0">
+                            <input type="email" id="form3Example3c" name="email" class="form-control" />
+                          </div>
+                        </div>
+                        <div class="ms-5">
+                          <label class="form-label" for="form3Example4c">Password</label>
+                        </div>
+                        <div class="d-flex flex-row align-items-center mb-4 ms-5">
+                          <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                          <div class="form-outline flex-fill mb-0 input-group">
+                            <input type="password" id="password" name="password" class="form-control" />
+                            <div class="input-group-text">
+                              <span id="pass-eye-btn"><i id="pass-eye-icon" class="bi bi-eye-slash"></i></span>
+                            </div>
+                          </div>
+                        </div>
+                        <a class="btn btn-primary" id="show_password">
+                          Show
+                        </a>
+
+                        <div class="ms-5">
+                          <label class="form-label" for="form3Example4cd">Repeat your password</label>
+                        </div>
+                        <div class="d-flex flex-row align-items-center mb-4 ms-5">
+                          <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                          <div class="form-outline flex-fill mb-0 input-group">
+                            <input type="password" id="confirm-password" class="form-control" name="confirmPassword" />
+                            <div class="input-group-text">
+                              <span id="pass-eye-btn-cnf"><i id="pass-eye-icon-cnf" class="bi bi-eye-slash"></i></span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="ms-5">
+                          <span id="password-message"></span>
+                        </div>
+                        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                          <button type="submit" class="btn btn-dark btn-lg">Signup</button>
+                        </div>
+                      </form>
+                </div>
+                <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+                  <img src="/images/signup-pic.jpg" class="img-fluid" width="75%" alt="signup-picture">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      $(document).ready(function(){
+        $('#show_password').on('click',function(){
+          const passwordField = $('#password');
+          const passwordFiledType = passwordField.attr('type');
+          if(passwordFiledType== 'password'){
+            passwordField.attr('type','text')
+          }else{
+            passwordField.attr('type','password');
+            $(this).text('Hide')
+          }
+        })
+      })
+      document.addEventListener('DOMContentLoaded', function () {
+        const confirmPasswordInput = document.getElementById('confirm-password');
+        const passwordMessage = document.getElementById('password-message');
+        confirmPasswordInput.addEventListener('input', function () {
+          const passwordInput = document.getElementById('password');
+          const password = passwordInput.value;
+          const confirmPassword = confirmPasswordInput.value;
+          const registrationForm = document.getElementById('registration-form')
+          if (password !== confirmPassword) {
+            passwordMessage.textContent = 'Passwords do not match.';
+            passwordMessage.style.color = 'red';
+
+          } else {
+            passwordMessage.textContent = ''; // Clear the message
+          }
+        });
+      });
+    </script>
+    <%- include('../layouts/footer') %>

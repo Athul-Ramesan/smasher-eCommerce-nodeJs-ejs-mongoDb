@@ -1,0 +1,97 @@
+<%-include ('../layouts/adminHeader') %>
+    <%-include ('../partials/adminSidebar') %>
+        <style>
+            /* Add your CSS styles here to make it stylish */
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f2f2f2;
+                text-align: center;
+            }
+
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: #fff;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .row {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+
+            .column {
+                flex: 1;
+                padding: 10px;
+                margin: 5px;
+            }
+
+            .input-field {
+                width: 100%;
+                padding: 10px;
+                margin: 5px 0;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+
+            input[type="number"] {
+                width: 100%;
+                padding: 10px;
+                margin: 5px 0;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+        </style>
+        </head>
+
+        <body>
+            <div class="container-fluid">
+                <h2>Add Product</h2>
+                <form action="/add-product" method="post">
+                    <div class="row">
+                        <div class="column">
+                            <label for="productName">Product Name:</label>
+                            <input type="text" id="productName" name="productName" class="input-field" required>
+
+                            <label for="description">Product Description:</label>
+                            <textarea id="description" name="description" class="input-field" rows="4"></textarea>
+
+                            <label for="details">Product Details:</label>
+                            <textarea id="details" name="details" class="input-field" rows="4"></textarea>
+                        </div>
+                        <div class="column">
+                            <label for="category">Category:</label>
+                            <input type="text" id="category" name="category" class="input-field">
+
+                            <label for="subcategory">Subcategory:</label>
+                            <input type="text" id="subcategory" name="subcategory" class="input-field">
+
+                            <label for="price">Price:</label>
+                            <input type="number" id="price" name="price" class="input-field" required>
+
+                            <label for="discountPrice">Discount Price:</label>
+                            <input type="number" id="discountPrice" name="discountPrice" class="input-field">
+                        </div>
+                        <div class="column">
+                            <label for="images">Product Images (up to 3):</label>
+                            <input type="file" id="images" name="images" accept="image/*" multiple>
+
+                            <label for="stock">Stock:</label>
+                            <input type="number" id="stock" name="stock" class="input-field">
+
+                            <label for="tag">Tag:</label>
+                            <input type="text" id="tag" name="tag" class="input-field">
+
+                            <label for="brandName">Brand Name:</label>
+                            <input type="text" id="brandName" name="brandName" class="input-field">
+                        </div>
+                    </div>
+                    <input type="submit" value="Add Product">
+                </form>
+            </div>
+        </body>
+
+        <%-include ('../layouts/footer') %>

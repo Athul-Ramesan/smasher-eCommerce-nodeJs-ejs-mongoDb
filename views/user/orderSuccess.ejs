@@ -1,0 +1,51 @@
+<%- include ('../layouts/header') %>
+
+
+<style>
+    body {
+        background: linear-gradient(to bottom, #74ebd5, #ACB6E5);
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+    }
+    .card {
+        background-color: #fff;
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+    }
+    .green-tick {
+        color: #28a745;
+        font-size: 60px;
+    }
+</style>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card p-4 text-center">
+                <div class="green-tick">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h1 class="mt-3">Your Order is Successful</h1>
+                <h3>Order ID : <%=orderId%></h3>
+                <div>
+                    <div>
+                        <a href="/orderDetails/<%=orderId%> " >Track order</a>
+                    </div>
+                    <div>
+                        <a href="/home" >Back to home</a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+<%- include ('../layouts/footer') %>

@@ -1,0 +1,245 @@
+<%-include ('../layouts/adminHeader') %>
+<%-include ('../partials/adminSidebar') %>
+
+<div class="container-fluid">
+    <h1 class="mt-5">Edit Product</h1>
+    <% if(message.editProduct){%>
+        <div class="alert alert-danger">
+            <span> 
+                <%= message?.editProduct %>
+            </span>
+        </div>
+        <%} %>
+    <form action="/admin/editProduct/<%=product._id%>" method="post" enctype="multipart/form-data" class="bg-white">
+        <div class="row" style="background: linear-gradient(to top, rgb(231, 210, 210),white);">
+            <div class="col-md-6">
+                <div class="form-group ms-2">
+                    <label for="productName">Product Name:</label>
+                    <input type="text" name="productName" class="form-control bg-light" id="productName"
+                        placeholder="Enter product name" required value="<%=product.name %>" />
+                </div>
+
+                <div class="border p-3 mb-3 bg-light mt-3 ms-2">
+                    <h3>Media</h3>
+                    <!-- Image input for Image 1 -->
+                    <div class="form-group text-center">
+                        <label for="image1">Image 1:</label>
+                        <input type="file" name="productImage1" class="form-control-file" id="image1"
+                            accept=".jpeg, .jpg, .png" data-index="1" onchange="previewImage(this)" />
+                        <span id="image1Error" class="text-danger"></span>
+                    </div>
+                    <!-- Image input for Image 2 -->
+                    <div class="form-group text-center">
+                        <label for="image2">Image 2:</label>
+                        <input type="file" name="productImage2" class="form-control-file" id="image2"
+                            accept=".jpeg, .jpg, .png" data-index="2" onchange="previewImage(this)" />
+                        <span id="image2Error" class="text-danger"></span>
+                    </div>
+                    <!-- Image input for Image 3 -->
+                    <div class="form-group text-center">
+                        <label for="image3">Image 3:</label>
+                        <input type="file" name="productImage3" class="form-control-file" id="image3"
+                            accept=".jpeg, .jpg, .png" data-index="3" onchange="previewImage(this)" />
+                        <span id="image3Error" class="text-danger"></span>
+                    </div>
+                    <!-- Image previews -->
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="uploaded-image">
+                                <img src="/uploads/<%= product.productImage1%>" alt="Uploaded Image 1"
+                                    id="previewImage1" class="img-fluid" data-index="1">
+                                <button class="btn btn-danger btn-sm delete-image" id="delete-image1"
+                                    style="display: none;" data-index="1" onclick="deleteImage(this)">Delete</button>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="uploaded-image">
+                                <img src="/uploads/<%= product.productImage2%>" alt="Uploaded Image 2"
+                                    id="previewImage2" class="img-fluid" data-index="2">
+                                <button class="btn btn-danger btn-sm delete-image ms-2" id="delete-image2"
+                                    style="display: none; padding-left: 10px;" data-index="2"
+                                    onclick="deleteImage(this)">Delete</button>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="uploaded-image">
+                                <img src="/uploads/<%= product.productImage3%>" alt="Uploaded Image 3"
+                                    id="previewImage3" class="img-fluid" data-index="3">
+                                <button class="btn btn-danger btn-sm delete-image" id="delete-image3"
+                                    style="display: none;" data-index="3" onclick="deleteImage(this)">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    function previewImage(input) {
+                        const index = input.dataset.index;
+                        const previewImage = document.getElementById(`previewImage${index}`);
+                        const deleteButton = document.getElementById(`delete-image${index}`);
+                        const errorSpan = document.getElementById(`image${index}Error`);
+                        const file = input.files[0];
+
+                        if (file) {
+                            const fileName = file.name;
+                            const fileExtension = fileName.split('.').pop().toLowerCase();
+
+                            // Check if the file extension is allowed
+                            if (['jpeg', 'jpg', 'png'].includes(fileExtension)) {
+                                const reader = new FileReader();
+                                reader.onload = function (e) {
+                                    previewImage.src = e.target.result;
+                                };
+                                reader.readAsDataURL(file);
+                                deleteButton.style.display = 'block';
+                                errorSpan.textContent = ''; // Clear any previous error message
+                            } else {
+                                // Display an error message and clear the input
+                                errorSpan.textContent = 'Invalid file type. Please select a valid image file.';
+                                input.value = '';
+                                deleteButton.style.display = 'none';
+                            }
+                        } else {
+                            previewImage.src = ''; // Clear the image if no file selected
+                            deleteButton.style.display = 'none';
+                            errorSpan.textContent = ''; // Clear any previous error message
+                        }
+                    }
+
+                    function deleteImage(button) {
+                        index = button.dataset.index;
+                        const previewImage = document.getElementById(`previewImage${index}`);
+                        const inputFile = document.getElementById(`image${index}`);
+                        const deleteButton = document.getElementById(`delete-image${index}`);
+
+                        // Clear the image preview
+                        previewImage.src = '';
+                        inputFile.value = '';
+
+                        // Hide the delete button
+                        deleteButton.style.display = 'none';
+                    }
+                </script>
+
+                <div class="form-group ms-2">
+                    <label for="productDescription">Product Description:</label>
+                    <textarea class="form-control bg-light" name="description" id="productDescription" rows="4"
+                        placeholder="Enter product description" required><%=product.description %></textarea>
+                </div>
+                        <br>
+                        <div class="form-group ms-2">
+
+                            <label for="productDetails">Product Details :</label>
+                            <textarea class="form-control bg-light" name="details" id="productSpecification"
+                                placeholder="Enter product details" value="" required><%=product.details %></textarea>
+                            <label for="productSpecification">Product Specification:</label>
+                            <textarea class="form-control bg-light" name="specification" id="productSpecification"
+                                placeholder="Enter product specification" value="" ><%=product.
+                                specificatios %></textarea>
+                        </div>
+                        <br>
+
+
+
+
+
+                        <div class="border p-3 mb-3 ms-2">
+                            <h2>Pricing</h2>
+                            <div class="form-group">
+                                <label for="basePrice">Base Price:</label>
+                                <input type="number" name="price" class="form-control bg-light" id="basePrice"
+                                    placeholder="Enter base price" value="<%=product.price %>" required />
+                            </div>
+                            <br>
+                            <!-- <div class="form-group ">
+                                <label for="discountAmount">Discount Amount:</label>
+                                <input type="number" name="discountAmount" class="form-control bg-light"
+                                    id="discountAmount" placeholder="Enter discount amount"
+                                    value="<%=product.discountAmount %>" required />
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+
+
+                        <div class="border p-3 mt-4 mb-3 me-2">
+                            <h2>Stock</h2>
+
+                            <div class="form-group">
+                                <label for="quantity">Quantity:</label>
+                                <input type="number" name="stock" class="form-control bg-light" id="quantity"
+                                    placeholder="Enter quantity" value="<%=product.stock %>" required />
+                            </div>
+                        </div>
+                        <div class="me-2">
+                            <div class="bg-white p-3">
+                                <div class="form-group">
+                                    <br>
+                                    <label for="category">Category:</label>
+                                    <select class="form-select bg-light" id="category" name="category" required>
+                                        <option value="<%=product.category._id %>" >
+                                            <%=product.category.name %>
+                                        </option>
+                                        <% categories.forEach((category)=>{ %>
+                                            <option value="<%=category._id%>">
+                                                <%=category.name%>
+                                            </option>
+                                            <% } )%>
+                                    </select>
+                                </div><br>
+                                <div class="form-group">
+                                    <br>
+                                    <label for="subcategory">Subcategory:</label>
+                                    <select class="form-select bg-light" id="category" name="subcategory" required>
+                                        <option value="<%=product.subcategory %>" >
+                                            <%=product.subcategory %>
+                                        </option>
+
+                                        <option value="Racket">Racket</option>
+                                        <option value="String">String</option>
+                                        <option value="Ball">Ball</option>
+
+
+                                    </select>
+                                </div><br>
+
+                                <div class="form-group">
+                                    <br>
+                                    <label for="brandName">Brand Name:</label>
+                                    <select name="brand" class="form-select bg-light" id="brand" required>
+                                        <option value="<%=product.brand._id %>">
+                                            <%= product.brand.name %>
+                                        </option>
+                                        <% brands.forEach((brand)=>{ %>
+                                            <option value="<%=brand._id%>">
+                                                <%=brand.name%>
+                                            </option>
+                                            <% }) %>
+                                    </select>
+                                </div><br>
+                                <div class="form-group">
+                                    <label for="tags">Tags:</label>
+                                    <input type="text" class="form-control bg-light" name="tags" id="tags"
+                                        placeholder="Enter tags" value="<%=product.tags %>" required />
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-dark  " style="margin-left: 30%; margin-top: 10%; width: 40%;">Save changes</button>
+                            
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+        <%-include ('../layouts/adminFooter') %>

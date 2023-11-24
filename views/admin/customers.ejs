@@ -1,0 +1,116 @@
+<%-include ('../layouts/header') %>
+  <%-include ('../partials/adminSidebar') %>
+
+    <div class="form-group float-end m-2 d-flex">
+      <div class=" ">
+        <form action="/admin/adminSearchUser" method="post" role="search">
+          <div class="input-group">
+            <input type="search" placeholder="Search " name="query" class="form-control" />
+            <button class="btn bg-white" type="submit">
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+      <!-- <button class="btn btn-secondary me-2">SEARCH USER</button> -->
+    </div>
+    <div class="container m-5 card shadow">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>USER LIST</h2>
+
+      </div>
+      <% if(message){ %>
+        <span class="text-danger">
+          <%=message.adminUserMessage %>
+        </span>
+        <% }%>
+          <div class="table-responsive">
+            <div class="d-flex justify-content-end align-items-center">
+            </div>
+
+            <table class="table  table-bordered table-shadow mt-3" id="usersTable">
+              <thead>
+                <tr>
+                  <th>User ID</th>
+                  <th>Name</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% users.forEach(user=> { %>
+                  <tr>
+                    <td>
+                      <%= user._id %>
+                    </td>
+                    <td>
+                      <%= user.name %>
+                    </td>
+                    <% if(user.status==='Active' ){ %>
+                      <td class="text-success">
+                        <%= user.status %>
+                      </td>
+                      <% }else{ %>
+                        <td class="text-danger">
+                          <%= user.status %>
+                        </td>
+                        <% } %>
+
+                          <td>
+                            <% if (user.status==='Active' ) { %>
+                              <a class="remove-button" href="/admin/blockUser/<%=user._id%>">
+                                <button class="btn btn-danger ">Block</button></a>
+                              <% } else if (user.status==='Blocked' ) { %>
+                                <a class="remove-button" href="/admin/blockUser/<%=user._id%>"><button
+                                   
+                                    class="btn btn-success">Unblock</button></a>
+                                <% } %>
+                          </td>
+                  </tr>
+                  <% }); %>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination d-flex justify-content-center g-2 m-5">
+            <%if(currentPage>1){%>
+              <a href="/admin/customers?page=<%=currentPage - 1%>" class="btn btn-sm btn-outline-dark ">Prev</a>
+              <% } %>
+
+                <a href="/admin/customers?page=<%=currentPage%>" class="btn btn-sm btn-outline-dark ">
+                  <%=currentPage%>
+                </a>
+
+                <%if(currentPage< totalPages){%>
+                  <a href="/admin/customers?page=<%=currentPage + 1%>" class="btn btn-sm btn-outline-dark ">Next</a>
+                  <% } %>
+          </div>
+
+    </div>
+
+    <script>
+
+const removeButtons = document.querySelectorAll('.remove-button')
+                removeButtons.forEach((button) => {
+                    button.addEventListener('click', (event) => {
+                        event.preventDefault()
+
+                        Swal.fire({
+                            title: 'Are you sure?',
+                            
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Confirm'
+                        }).then((result) => {
+                            if(result.isConfirmed){
+                                window.location.href = button.href
+                            }
+                            
+                        })
+                    })
+                })
+    </script>
+
+    <%-include ('../layouts/adminFooter') %>

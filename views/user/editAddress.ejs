@@ -1,0 +1,89 @@
+<%- include ('../layouts/header') %>
+<%- include ('../partials/userHeader') %>
+
+<style>
+
+.checkout .form-control{
+    border-radius: 0px !important;
+}
+.checkout .form-control:focus{
+    border: 1px solid #000 !important;
+    box-shadow: none !important;
+}
+.checkout .nav-link{
+    border: 1px solid #000;
+    border-radius: 0px;
+    margin-bottom: 8px;
+}
+.checkout .tab-content{
+    padding-right: 10px;
+}
+
+</style>
+
+<div class="py-3 py-md-4 checkout">
+    <div class="container">
+        <div class="d-flex justify-content-center   ">
+            <h3 class="text-primary">You can edit your address here  !</h3>
+            
+        </div>
+        <% if(message) {%>
+            <span><%= message.addressMessage %></span>
+        <% }%>
+        
+        <hr>
+
+        <div class="row justify-content-center">
+            
+            <div class="col-md-6 justify-content-center">
+                <div class="shadow bg-white p-3">
+                    <h4 class="text-primary">
+                        Shipping Address
+                    </h4>
+                    <hr>
+
+                    <form action="/editAddress/<%=address._id%>" method="post">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                
+                                <input type="text" name="name" value="<%=address.name%>" class="form-control" placeholder="Name" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                
+                                <input type="number" name="mobile" value="<%=address.mobile%>" class="form-control" placeholder="Phone Number"/>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                
+                                <input type="number" name="pincode" value="<%=address.pincode%>" class="form-control" placeholder="Pin-code" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                
+                                <input type="text" name="locality" value="<%=address.locality%>" class="form-control" placeholder="Locality" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                
+                                <input name="houseName" value="<%=address.houseName%>" placeholder="House name" class="form-control" >
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                
+                                <input type="text" name="district" value="<%=address.district%>" class="form-control" placeholder="District/Twon?City" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label>State</label>
+                                <input type="text" name="state" value="<%=address.state%>"  class="form-control" placeholder="Enter state" />
+                            </div>
+                            <button type="submit" class="btn btn-outline-primary">Update Address</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+
+<%- include ('../partials/userFooter') %>
+<%- include ('../layouts/footer') %>

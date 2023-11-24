@@ -1,0 +1,55 @@
+<%- include ('../layouts/header') %>
+    <%- include ('../partials/plainHeader') %>
+
+    <style>
+           .image-wrapper {
+                width: 100%;
+                /* Make the image wrapper fill the width of the container */
+                height: 100%;
+                /* Make the image wrapper fill the height of the container */
+                overflow: hidden;
+                /* Hide any image overflow that might occur */
+            }
+
+            .image-wrapper img {
+                width: 100%;
+                /* Make the image fill the width of the image wrapper */
+                height: 100%;
+                /* Make the image fill the height of the image wrapper */
+                object-fit: cover;
+                /* Maintain aspect ratio and cover the image wrapper */
+            }
+    </style>
+
+
+<div class="container card shadow m-5">
+    <div class="row mt-5">
+        <div class="col-md-6 m-auto">
+            <div class="container mt-5 pl-5">
+    
+                <h2 class="text-center">Verify Email</h2>
+                <form action="/forgotPassword"  method="POST">
+    
+                    <% if(message) { %>
+                        <p class="error"> <%= message.verifyEmailError %> </p>
+                   <% } %>
+                        
+           
+                    <div class="form-group mb-3">
+                        
+                        <input type="email" class="form-control" name="email" placeholder="Enter Email">
+                    </div>
+    
+                    <a href=""></a>
+                    <button type="submit" class="text-dark btn btn-outline-warning ms-5 mb-3 px-5 py-2 ">Varify</button>
+                </form>
+                
+              
+    
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<%- include ('../layouts/footer') %>

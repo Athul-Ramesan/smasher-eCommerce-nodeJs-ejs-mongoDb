@@ -1,0 +1,453 @@
+<%- include ('../layouts/header') %>
+  <%- include ('../partials/userHeader') %>
+
+    <style>
+      .checkout .form-control {
+        border-radius: 0px !important;
+      }
+
+      .checkout .form-control:focus {
+        border: 1px solid #000 !important;
+        box-shadow: none !important;
+      }
+
+      .checkout .nav-link {
+        border: 1px solid #000;
+        border-radius: 0px;
+        margin-bottom: 8px;
+      }
+
+      .checkout .tab-content {
+        padding-right: 10px;
+      }
+    </style>
+
+
+
+
+    <div class="py-3 py-md-4 checkout " id="main-div">
+      <div class="container">
+        <h4 class="text-weight-bold text-center">PROFILE</h4>
+        <hr>
+
+
+        <div class="row">
+          <div class="d-flex flex-column col-md-4">
+
+            <div class="shadow bg-white p-3 ">
+              <h4 class="text-weight-bold text-center text-black">
+                USER
+
+              </h4>
+              <hr>
+              <div class="d-flex align-items-center ps-5 ms-5">
+                <img class="img-fluid" width="200px" src="/images/user.jpeg" alt="">
+              </div>
+              <div class="text-center">
+                <h6 id="user-name">User: <%= user.name %>
+                </h6>
+                <h6>Email: <%= user.email %>
+                </h6>
+              </div>
+            </div>
+
+            <hr>
+            <div class="shadow bg-white p-3 mb-0">
+              <h4 class="text-weight-bold text-center text-black">
+                Update Information <button class="btn btn-outline-success" id="editLink"
+                  onclick="toggleEdit(); return false;">Edit</button>
+              </h4>
+              <form id="editUserDetails">
+                <div class="g-2">
+                  <label for="name" class="m-2">
+                    <h6>Name</h6>
+                  </label>
+                  <input disabled type="text" id='nameInput' value="<%=user.name%>" name="name">
+
+                </div>
+                <div class="div">
+                  <label for="phone" class="m-1">
+                    <h6>Mobile</h6>
+                  </label>
+                  <input type="number" disabled id='mobileInput' class="me-auto" value="<%=user.mobile%>"" name="
+                    mobile">
+                </div>
+                <button type="submit" style="display: none;" id="save-changes"
+                  class="btn-outline-success btn text-dark">Save Changes</button>
+
+              </form>
+
+
+              <hr>
+              <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                <i class="fas fa-plus-circle"></i> Change password
+              </button>
+            </div>
+            <!--modal data-->
+
+            <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="changePasswordModalLabel">Change password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div id="flashMessage" class="alert alert-danger" style="display: none;"></div>
+                  <div class="modal-body">
+                    <form id="passwordChangeForm">
+                      <div class="form-group">
+                        <label for="currentPassword">Current Password:</label>
+                        <div class="d-flex">
+                          <input type="password" class="form-control" id="currentPassword" name="currentPassword"
+                            required>
+                          <button type="button" class="btn btn-outline-secondary" id="currentPasswordToggle"
+                            style="background-color: rgba(0, 0, 0, 0.889);"><i class="fa fa-eye"></i></button>
+                        </div>
+
+                      </div>
+                      <div class="form-group">
+                        <label for="newPassword">New Password:</label>
+                        <div class="d-flex">
+                          <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+                          <button type="button" class="btn btn-outline-secondary" id="newPasswordToggle"
+                            style="background-color: rgba(0, 0, 0, 0.889);"><i class="fa fa-eye"></i></button>
+                        </div>
+
+                      </div>
+                      <div class="form-group">
+                        <label for="confirmPassword">Confirm Password:</label>
+                        <div class="d-flex">
+                          <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                            required>
+                          <button type="button" class="btn btn-outline-secondary" id="ConfirmPasswordToggle"
+                            style="background-color: rgba(0, 0, 0, 0.889);"><i class="fa fa-eye"></i></button>
+                        </div>
+
+                      </div>
+                      <br>
+                      <button type="submit" class="btn btn-primary" id="changePasswordButton">Save</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--modal data end-->
+          </div>
+
+          <div class=" col-md-5">
+            <div class="shadow bg-white p-3">
+              <h4 class="text-primary">
+                <div class="row">
+                  <div class="col-md-5 m-2">
+                    <div class="card border rounded shadow bg-light">
+                      <div class="card-top d-flex justify-content-center">
+                        <img width="250px" class="img-fluid" src="/images/orders.jpg" alt="Orders Image">
+                      </div>
+                      <div class="card-body rounded bg-dark">
+                        <a href="/orders" style="text-decoration: none;">
+                          <h5 class="card-title text-white text-center">Orders</h5>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5 m-2">
+                    <div class="card border rounded shadow bg-light">
+                      <div class="card-top d-flex justify-content-center">
+                        <img width="125px" class="img-fluid" src="/images/address.jpg" alt="Address Image">
+                      </div>
+                      <div class="card-body rounded bg-dark">
+                        <a href="/address" style="text-decoration: none;">
+                          <h5 class="card-title text-white text-center">Address</h5>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5 m-2">
+                    <div class="card border rounded shadow bg-light">
+                      <div class="card-top d-flex justify-content-center">
+                        <img width="200px" class="img-fluid" src="/images/wish.png" alt="Orders Image">
+                      </div>
+                      <div class="card-body rounded bg-dark">
+                        <a href="/orders" style="text-decoration: none;">
+                          <h5 class="card-title text-white text-center">Wishlist</h5>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5 m-2">
+                    <div class="card border rounded shadow bg-light">
+                      <div class="card-top d-flex justify-content-center">
+                        <img width="200px" class=" img-fluid" src="/images/reviews.jpg" alt="Address Image">
+                      </div>
+                      <div class="card-body rounded bg-dark">
+                        <a href="/orders" style="text-decoration: none;">
+                          <h5 class="card-title text-white text-center">Reviews</h5>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div class=" col-md-3">
+            <div class="shadow card bg-white p-3">
+              <div class="card-title text-center text-dark rounded-2 p-3 fw-bold bg-light">
+                <h4> WALLET</h4>
+                <hr>
+                <div class="card-body fw-bold bg-light">
+                  Wallet Balance : ₹ <%=user.walletAmount %>
+                </div>
+                <hr>
+              </div>
+              <div class="card-body shadow bg-light">
+                <h5 class="text-center">Referal link :</h5>
+              </div>
+              <div class="copy-container">
+                <input type="text" value="http://localhost:3000/signup?referalUserId=<%=user._id%>" id="copyText"
+                  readonly />
+                <button onclick="copyTextToClipboard()">
+                  <i class="fas fa-copy"></i> Copy
+                </button>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+          <!-- <div class="col-md-4">
+                <div class="shadow bg-white p-3">
+                  <h4 class="text-dark">
+
+                  </h4>
+                  <hr>
+
+
+             
+                  
+
+                </div>
+              </div> -->
+
+
+
+        </div>
+
+      </div>
+    </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script>
+      function validatePassword(password) {
+        console.log(password);
+        if (!password) {
+          
+          $('#flashMessage').text('Empty input').show()
+          return false
+        }
+
+          if (password.length<= 8) {
+            $('#flashMessage').text('Password must has 8 characters').show()
+            return false
+          }
+      
+        return true
+
+      }
+      $('#passwordChangeForm').submit((e) => {
+        e.preventDefault();
+
+        newPasswordInput = $('#newPassword').val
+        confirmPasswordInput = $('#confirmPassword').val
+
+        if (!validatePassword(newPasswordInput) || !validatePassword(confirmPasswordInput)) {
+          return;
+        }
+        $.ajax({
+          url: '/changePassword',
+          method: 'POST',
+          data: $('#passwordChangeForm').serialize(),
+          success: (response) => {
+            if (response.error) {
+              console.log(response);
+
+              $('#flashMessage').text(response.error).show()
+
+            } else {
+
+              swal('Password changed successfully').then(() => {
+                $('#changePasswordModal').modal('hide');
+                window.location.reload()
+              })
+
+
+            }
+          }
+        })
+      })
+      function toggleEdit() {
+        const nameInput = document.getElementById('nameInput');
+        const mobileInput = document.getElementById('mobileInput');
+        const editLink = document.getElementById('editLink');
+        const saveChanges = document.getElementById('save-changes')
+        if (nameInput.hasAttribute('disabled')) {
+          // Enable the inputs
+          nameInput.removeAttribute('disabled');
+          mobileInput.removeAttribute('disabled');
+
+          saveChanges.style.display = 'block'
+          // Change "Edit" link to "Cancel"
+          editLink.textContent = "Cancel";
+
+        } else {
+          // Disable the inputs
+          nameInput.setAttribute('disabled', 'true');
+          mobileInput.setAttribute('disabled', 'true');
+          saveChanges.style.display = 'none'
+          // Change "Cancel" link back to "Edit"
+          editLink.textContent = "Edit";
+          window.location.reload()
+        }
+      }
+
+      document.getElementById('editUserDetails').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById('nameInput').value;
+        const mobile = document.getElementById('mobileInput').value;
+
+        const requestOptions = {
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            name: name,
+            mobile: mobile
+          })
+        }
+        fetch('/editUserDetails', requestOptions)
+          .then((response) => {
+            console.log(response);
+
+            if (response.status === 422) {
+              return response.json(); // Return the promise
+            } else if (response.status === 201) {
+              // Handle success
+              const nameInput = document.getElementById('nameInput');
+              const mobileInput = document.getElementById('mobileInput');
+              const editLink = document.getElementById('editLink');
+              const userName = document.getElementById('user-name');
+
+              Toastify({
+                text: 'Updated Successfully',
+                duration: 3000,
+                position: "center",
+                className: "info",
+                style: {
+                  background: "success",
+                }
+              }).showToast();
+
+              setTimeout(() => {
+                location.reload();
+                nameInput.setAttribute('disabled', 'true');
+                mobileInput.setAttribute('disabled', 'true');
+                editLink.textContent = "Edit";
+              }, 3000);
+            }
+          })
+          .then((data) => {
+            // Handle the case where status was 422
+            if (data && data.errors) {
+              console.log(data);
+              data.errors.forEach((errorMessage) => {
+                Toastify({
+                  text: errorMessage,
+                  duration: 3000,
+                  position: "bottom-center",
+                  className: "info",
+                  style: {
+                    background: "red",
+                  }
+                }).showToast();
+              });
+            }
+          })
+          .catch((error) => {
+            console.log(error, "error");
+          });
+
+
+
+      })
+
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const currentPasswordInput = document.getElementById('currentPassword');
+        const newPasswordInput = document.getElementById('newPassword')
+        const confirmPasswordInput = document.getElementById('confirmPassword')
+
+        toggleButtons = {
+          currentPassword: document.getElementById('currentPasswordToggle'),
+          newPassword: document.getElementById('newPasswordToggle'),
+          confirmPassword: document.getElementById('ConfirmPasswordToggle')
+        }
+
+        function togglePasswordVisibility(input, toggleButton) {
+          const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+          input.setAttribute('type', type);
+
+          const iconClass = type === "password" ? 'fa-eye' : 'fa-eye-slash';
+          toggleButton.innerHTML = `<i class="fa ${iconClass}" ></i>`
+        }
+        for (const key in toggleButtons) {
+          if (Object.hasOwnProperty.call(toggleButtons, key)) {
+            const toggleButton = toggleButtons[key];
+            const inputField = document.getElementById(key);
+
+            toggleButton.addEventListener('click', () => {
+              togglePasswordVisibility(inputField, toggleButton);
+            })
+          }
+        }
+      })
+      function copyTextToClipboard() {
+        /* Get the text field */
+        var copyText = document.getElementById("copyText");
+
+        /* Select the text field */
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+        /* Copy the text inside the text field to the clipboard */
+        document.execCommand("copy");
+
+        Toastify({
+
+          text: "Copied to clipboard: " + copyText.value,
+
+          duration: 3000,
+          position: "center",
+          className: "info",
+          style: {
+            background: "linear-gradient(to right,#00e600, #96c93d)",
+          }
+
+        }).showToast()
+
+      }
+
+
+    </script>
+    <%- include ('../partials/userFooter') %>
+      <%- include ('../layouts/footer') %>

@@ -1,0 +1,139 @@
+<%- include ('../layouts/header') %>
+
+    <div class="main-navbar shadow-sm sticky-top">
+        <div class="top-navbar">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="d-flex justify-content-between">
+                        <a class="navbar-brand" href="/home">
+                            <img src="/images/logo.png" style="max-height: 70px;" alt="logo">
+                        </a>
+                        <a href="/login" class=" text-decoration-none text-white pt-3 pe-5">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <section>
+        <div class="card shadow mt-5 container">
+            <div class=" text-center  mt-5 me-5 mb-5">
+                <h1>SignUp</h1>
+            </div>
+            <div class="row justify-content-center align-items-center ">
+                <div class="col-md-3 loginBorder position-relative  pe-3">
+                    <div class="orText d-none d-md-block"></div>
+                    <form id="loginForm" action="/signup" method="post">
+
+                        <% if (message) { %>
+                            <div>
+                                <span class="text-danger">
+                                    <%= message.userSignupError%>
+                                </span>
+                            </div>
+                            <% } %>
+
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Name</label>
+                                    <input type="text" name="name" class="form-control" id="email"
+                                        placeholder="Enter your name">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email address</label>
+                                    <input type="email" name="email" class="form-control" id="email"
+                                        placeholder="Enter your email">
+                                </div>
+                                <div class="mb-3 ">
+                                    <label for="password" class="form-label">Password</label>
+                                    <div class="d-flex">
+                                        <input type="password" name="password" class="form-control" id="password"
+                                            placeholder="Enter your password">
+                                            <button type="button" class="btn btn-outline-secondary" id="passwordToggle" style="background-color: rgba(212, 214,216,0.889);"><i class="fa fa-eye"></i></button>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Repeat password</label>
+                                    <div class="d-flex">
+
+                                        <input type="password" name="confirmPassword" class="form-control" id="confirmPassword"
+                                            placeholder="Repeat your password">
+                                            <button type="button" class="btn btn-outline-secondary" id="confirmPasswordToggle" style="background-color: rgba(212, 214,216,0.889);"><i class="fa fa-eye"></i></button>
+                                    </div>
+                                </div>
+                                <div class="ms-5">
+                                    <span id="password-message"></span>
+                                  </div>
+
+                              
+                                <button type="submit" id="userLogged" class="btn m-3 btn-dark"
+                                    style="width: -webkit-fill-available;">Signup</button>
+                    </form>
+                </div>
+
+                <!-- Right Div: image-->
+                <div class="col-md-3  m-3 pe-3 ps-0 position-relative">
+
+                    <img src="/images/logo.png" alt="" class="ms-2 img-fluid"  />
+ 
+            </div>
+
+
+            </div>
+            
+
+        </div>
+
+    </section>
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', function () {
+          const confirmPasswordInput = document.getElementById('confirmPassword');
+          const passwordMessage = document.getElementById('password-message');
+          confirmPasswordInput.addEventListener('input', function () {
+            const passwordInput = document.getElementById('password');
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            const registrationForm = document.getElementById('registration-form')
+            if (password !== confirmPassword) {
+              passwordMessage.textContent = 'Passwords do not match.';
+              passwordMessage.style.color = 'red';
+  
+            } else {
+              passwordMessage.textContent = ''; // Clear the message
+            }
+          });
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+
+        const toggleButtons = {
+            password: document.getElementById('passwordToggle'),
+            confirmPassword: document.getElementById('confirmPasswordToggle')
+        };
+
+        function togglePasswordVisibility(input, toggleButton) {
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            input.setAttribute('type', type);
+            
+            const iconClass = type === 'password' ? 'fa-eye' : 'fa-eye-slash';
+            toggleButton.innerHTML = `<i class="fa ${iconClass}"></i>`;
+        }
+
+        for (const key in toggleButtons) {
+            if (Object.hasOwnProperty.call(toggleButtons, key)) {
+                const toggleButton = toggleButtons[key];
+                const inputField = document.getElementById(key);
+
+                toggleButton.addEventListener('click', function () {
+                    togglePasswordVisibility(inputField, toggleButton);
+                });
+            }
+        }
+    });
+      </script>
+
+    <%- include ('../layouts/footer') %>

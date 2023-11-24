@@ -1,0 +1,107 @@
+<%-include ('../layouts/adminHeader') %>
+    <%-include ('../partials/adminSidebar') %>
+
+<div class="header" style="margin-top: 80px;">
+    <h1>Banners</h1>
+  </div>
+
+
+  <div class="container-fluid">
+    <% if (message.BannerUpdated) { %>
+        <div class="alert alert-success" role="alert">
+            <%= message.BannerUpdated %>
+        </div>
+    <% } %>
+    <% if (message.BannerDeleted) { %>
+        <div class="alert alert-success" role="alert">
+            <%= message.BannerDeleted %>
+        </div>
+    <% } %>
+    <% if (message.existing) { %>
+        <div class="alert alert-danger" role="alert">
+            <%= message.existing %>
+        </div>
+    <% } %>
+
+    <h2 class="mb-4">Current Banner</h2>
+    <div class="mb-4">
+        <% if (currentBanner?.video) { %>
+            <video autoplay muted loop class="img-fluid" style=" height: 200px;">
+                <source src="/uploads/<%= currentBanner?.video%>" type="video/mp4">
+            </video>
+        <% } else if (currentBanner?.image) { %>
+            <img src="/uploads/<%= currentBanner?.image %>" alt="Current Banner" class="img-fluid" style="max-height: 200px;">
+        <% } %>
+    </div>
+
+    <h2 class="mb-4">All Banners</h2>
+    <div class="table-responsive ">
+        <table class="table table-bordered ">
+            <thead>
+                <tr>
+                    <th style="color: rgb(0, 0, 0);">Banner Image</th>
+                    <th  style="color: rgb(0, 0, 0);">Banner Name</th>
+                    <th  style="color: rgb(0, 0, 0);">Status</th>
+                    <th  style="color: rgb(0, 0, 0);">Carosel</th>
+                    <th style="color: rgb(0, 0, 0);">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% banners?.forEach(banner => { %>
+                    <tr>
+                        <% if (banner.image) { %>
+                            <td><img src="/uploads/<%= banner.image %>" alt="<%= banner.name %>" class="img-fluid" style="max-height: 50px;"></td>
+                        <% } else if (banner.video) { %>
+                            <td><video style="max-height: 50px;" src="/uploads/<%= banner.video %>"></video></td>
+                        <% } else { %>
+                            <td>No Image or video</td>
+                        <% } %>
+            
+                        <td style="color: rgb(0, 0, 0);"><%= banner.name %></td>
+                        <td style="color: rgb(0, 0, 0);"><%= banner.status %></td>
+                        <td style="color: rgb(0, 0, 0);"><%= banner.carousel.length %></td>
+                        <td style="color: rgb(0, 0, 0);">
+                            <a class="btn btn-primary" href="/admin/activate-banner/<%= banner._id %>"  style="display: inline;">Activate </a>
+                            
+                           
+                            <a class="btn btn-danger remove-button"  href="/admin/delete-banner/<%= banner?._id %>" method="post" style="display: inline;">
+                               Delete
+                            </a>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+            
+        </table>
+    </div>
+
+    <div>
+        <a href="/admin/addBanner" class="btn btn-primary">Add New Banner</a>
+    </div>
+</div>
+
+<script>
+    const removeButtons = document.querySelectorAll('.remove-button')
+                removeButtons.forEach((button) => {
+                    button.addEventListener('click', (event) => {
+                        event.preventDefault()
+
+                        Swal.fire({
+                            title: 'Are you sure?',
+                            text: "You won't be able to revert this!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Confirm'
+                        }).then((result) => {
+                            if(result.isConfirmed){
+                                window.location.href = button.href
+                            }
+                            
+                        })
+                    })
+                })
+</script>
+
+<%-include ('../layouts/adminFooter') %>

@@ -1,0 +1,174 @@
+<%- include ('../layouts/header') %>
+    <%- include ('../partials/userHeader') %>
+
+        <style>
+            .checkout .form-control {
+                border-radius: 0px !important;
+            }
+
+            .checkout .form-control:focus {
+                border: 1px solid #000 !important;
+                box-shadow: none !important;
+            }
+
+            .checkout .nav-link {
+                border: 1px solid #000;
+                border-radius: 0px;
+                margin-bottom: 8px;
+            }
+
+            .checkout .tab-content {
+                padding-right: 10px;
+            }
+        </style>
+
+        <div class="py-3 py-md-4 checkout">
+            <div class="container">
+                <div class="d-flex justify-content-between">
+                    <h4>Orders</h4>
+
+                </div>
+
+                <hr>
+
+                <div class="row">
+
+                    <% orders.reverse().forEach((order, index)=> { %>
+                        <a href="/orderDetails/<%= order._id %>" style="text-decoration: none;">
+                            <div class="col-md-12 mb-3">
+                                <div class="card shadow">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <h5 class="card-title text-muted m-2">OrderID. <%= order._id %>
+                                        </h5>
+
+                                        <% if(order.status==='Cancelled' ){ %>
+                                            <span class="text-danger">Order Cancelled </span>
+                                            <%}else if( order.status=='Rejected' ){%>
+                                                <span class="text-danger">Order Rejected </span>
+                                                <%}else if( order.status=='Return requested' ){%>
+                                                    <a href="/cancelReturn/<%= order._id %>" id="cancel-return-btn"
+                                                        class=" btn btn-success return-order">cancel return</a>
+                                                    <%}else if( order.status=='Return accepted' ){%>
+                                                        <span class="text-danger">Order returned, Amount refunded
+                                                        </span>
+                                                        <%}else if(order.status=='Delivered' ){%>
+                                                            <span class="text-success">Order Delivered </span>
+                                                            <a href="/returnOrder/<%= order._id %>"
+                                                                id="return-order-btn" data-toggle="modal"
+                                                                data-target="#return-order-modal" id="return-order"
+                                                                class=" btn btn-info return-order">Retun Order</a>
+                                                            <%}else if(order.status=='Order Placed' ){ %>
+                                                                <a href="/cancelOrder/<%= order._id %>"
+                                                                    id="cancel-order-btn"
+                                                                    class=" btn btn-danger cancel-order">Cancel
+                                                                    Order</a>
+                                                                <%}else{%>
+                                                                    <span class="text-danger">
+                                                                        <%= order.status %>
+                                                                    </span>
+                                                                    <%}%>
+                                    </div>
+
+                                    <!-- Modal -->
+                                    <!-- <div class="modal fade" id="return-order-modal" tabindex="-1" role="dialog"
+                                        aria-labelledby="return-order-modal" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="return-order-modal">Retun reason</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="<textarea name=" returnReason" id="return-reason"
+                                                        cols="30" rows="10"></textarea>">
+                                                        <textarea name="returnReason" id="return-reason" cols="30"
+                                                            rows="10"></textarea>
+                                                    </form>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+
+                                    <div class="card-body">
+                                        <div class="d-flex">
+                                            <% dates?.reverse().forEach((date)=> { %>
+                                                <span class="m-1 font-weight-bold">Order Date: <%= date %>
+                                                </span>
+                                                <% }) %>
+                                        </div>
+                                        <div class="d-flex">
+                                            <span class="m-1 font-weight-bold">Total Items: <%= order.items.length %>
+                                            </span>
+                                        </div>
+                                        <div class="d-flex">
+                                            <span class="m-1 font-weight-bold">payment method : <%= order.paymentMethod
+                                                    %></span>
+                                        </div>
+                                        <span class="m-1 font-weight-bold">Status :<%= order.status %></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <% }) %>
+                </div>
+
+                <!-- Button trigger modal -->
+
+
+
+
+
+
+
+
+
+
+
+                <script>
+
+                    document.addEventListener("DOMContentLoaded", () => {
+                        const cancelOrder = document.querySelectorAll('.cancel-order')
+                        cancelOrder.forEach((button) => {
+                            button.addEventListener('click', (event) => {
+                                event.preventDefault()
+
+                                Swal.fire({
+                                    title: 'Are you sure?',
+                                    text: "You won't be able to revert this!",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    cancelButtonText: 'No',
+                                    confirmButtonText: 'Yes, Cancel it!'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.href = button.href
+                                    }
+
+                                })
+                            })
+                        })
+                  
+
+
+
+
+
+                    })
+
+
+
+
+                </script>
+                <%- include ('../partials/userFooter') %>
+                    <%- include ('../layouts/footer') %>

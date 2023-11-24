@@ -1,0 +1,45 @@
+<%-include ('../layouts/header') %>
+<%-include ('../partials/adminSidebar') %>
+
+
+</div>
+<div class="container mt-5 pt-5 col-md-10">
+    <a href="addproduct/" class="btn btn-success my-4  m-3 px-5 py-2">Add Product</a>
+</div>
+<div class="table-responsive">
+  <table class="table"  id="productTable">
+    <thead>
+      <tr>
+        <th scope="col">SI No:</th>
+        <th  scope="col">Product Name</th>
+        <th  scope="col">Product Id</th>
+        <th scope="col">Display</th> <!-- active or blocked to customer -->
+        <th scope="col">Price</th>
+        <th scope="col">Status</th>
+        <th scope="col">Updated Date</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>  
+    <tbody>
+      <tr>
+        <td class="count"></td>
+        <td ></td> 
+        <td ></td>
+        <td ></tr>
+        <td ></td>
+        <td ></td>
+        <td ></td>
+        <td ></td>
+        <td >
+          <a class="btn btn-primary" href="admin/edit-product/">Edit</a>
+          <a class="btn btn-danger" href="admin/edit-product/" onclick="return confirm('Do you want to delete--> ?')">Delete</a>
+        </td>
+      </tr> 
+    </tbody>
+  </table>
+
+</div>
+
+
+
+<%-include ('../layouts/footer') %>

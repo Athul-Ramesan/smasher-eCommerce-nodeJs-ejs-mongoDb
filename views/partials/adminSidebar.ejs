@@ -1,0 +1,173 @@
+<style>
+  body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+      font-family: 'Roboto', sans-serif;
+      overflow-x: hidden;
+      background-color: #f1f3f6;
+  
+  }
+
+  /*
+    .bg-custom-1{
+    background-color: #ffffff;
+    }
+    */
+  .bg-custom-2 {
+    background-color: #ffffff;
+  }
+
+  .bg-custom-3 {
+    background-color: #000000;
+  }
+
+  .nav-item.a {
+    text-decoration: none;
+    color: #fff;
+    margin: 0px;
+  }
+
+  i {
+    cursor: pointer;
+  }
+
+  i::before {
+    vertical-align: middle !important;
+    display: block !important;
+  }
+
+  .nav-link {
+    padding: 15px 25px;
+    color: #000000;
+    font-size: 18px;
+  }
+
+  .nav-item:hover {
+    color: #fff;
+    background-color: #a8a8a8;
+  }
+
+  .main-toolbar {
+    display: flex;
+    align-items: center;
+    border-left: 1px solid #f1f2f6;
+    padding-left: 10px;
+  }
+
+  .full-width-sidebar {
+    width: 100%;
+  }
+</style>
+
+<div class="border-dark main-toolbar  bg-custom-3 d-flex justify-content-between "
+  style="background: linear-gradient(rgb(21, 20, 20),rgb(31, 29, 29));">
+  <div>
+    <button data-mdb-toggle="sidenav" data-mdb-target="#sidenav-1" class="btn btn-dark" aria-controls="#sidenav-1"
+      data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+      <i class="fas fa-bars"></i>
+    </button>
+    <img src="/images/logo.png" style="width: 10rem;" alt="logo">
+  </div>
+
+
+
+
+  <!-- Example split danger button -->
+  <!-- <div class="btn-group m-3">
+    <button type="button" class="btn btn-danger"><i class="fa-solid fa-duotone fa-user pe-2"></i>Admin</button>
+    <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+     
+    </button>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="#">Action</a>
+      <a class="dropdown-item" href="#">Another action</a>
+      <a class="dropdown-item" href="#">Something else here</a>
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item" href="#">Separated link</a>
+    </div>
+  </div> -->
+
+
+
+  <div class="dropdown">
+    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+      <span class="text-white ">Admin</span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-end bg-light border-0 text-white  rounded-0 rounded-bottom m-0">
+      <a href="#" class="dropdown-item">My Profile</a>
+      <!-- <a href="#" class="dropdown-item">Settings</a> -->
+      <a href="/admin/logout" class="dropdown-item">Log Out</a>
+    </div>
+  </div>
+  </div>
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<div class="offcanvas offcanvas-start" style="width: 20%;"
+  data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+  <div class="offcanvas-header bg-black">
+    <h5 class="offcanvas-title text-white" id="offcanvasWithBothOptionsLabel">ADMIN PANEL</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body me-0">
+    <div class=" col-md-2 bg-custom-1  m-0" id="navbarToggleExternalContent">
+      <!-- <header class="bg-custom-2 p-3 ps-4">
+                <div class="p-5">
+                    <img src="" alt="profile pic">
+                </div>
+         <a href="">ATHUL RAMESHAN</a>
+        </header> -->
+      <ul class="nav flex-column full-width-sidebar ">
+        <li class="nav-item d-flex align-items-center">
+          <i class="nav-font fa-solid fa-chart-line p-3"></i>
+          <a class="nav-link" href="/admin/dashboard">Dashboard</a>
+        </li>
+        <li class="nav-item d-flex align-items-center">
+          <i class="fa-solid fa-truck-ramp-box p-3"></i>
+          <a class="nav-link" href="/admin/products">Products</a>
+        </li>
+        <li class="nav-item d-flex align-items-center">
+          <i class="fa-solid fa-layer-group p-3"></i>
+          <a class="nav-link" href="/admin/categoriesAndBrands">Categories & Brands</a>
+        </li>
+        <li class="nav-item d-flex align-items-center">
+          <i class="fa-solid fa-credit-card p-3"></i>
+          <a class="nav-link" href="/admin/offers">Offers</a>
+        </li>
+
+        <!-- <li class="nav-item d-flex">
+            <a class="nav-link" href="#">Admins</a>
+          </li>
+        -->
+
+        <li class="nav-item d-flex align-items-center">
+          <i class="fa-solid fa-users p-3"></i>
+          <a class="nav-link" href="/admin/customers">Customers</a>
+        </li>
+        <li class="nav-item d-flex align-items-center">
+          <i class="fa-solid fa-bag-shopping p-3"></i>
+          <a class="nav-link ps-4" href="/admin/orders">Orders</a>
+        </li>
+        <li class="nav-item d-flex align-items-center">
+          <i class="fa-sharp fa-solid fa-tag p-3"></i>
+          <a class="nav-link" href="/admin/coupons">Coupons</a>
+        </li>
+        <li class="nav-item d-flex align-items-center">
+          <i class="fa-solid fa-panorama p-3"></i>
+          <a class="nav-link" href="/admin/banner">Banners</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,211 @@
+ <style>
+      body {
+      padding: 0;
+      margin: 0;
+      font-family: "Nunito Sans";
+      }
+      /*
+      .bg-custom-1{
+      background-color: #ffffff;
+      }
+      */
+      .bg-custom-2{
+      background-color: #ffffff;
+      }
+      .bg-custom-3{
+      background-color: #1F485B;
+      }
+      .nav-item.a{
+        text-decoration: none;
+      color: #fff;
+      margin: 0px;
+      }
+      i{
+      cursor: pointer;
+      }
+      i::before{
+      vertical-align: middle !important;
+      display: block !important;
+      }
+      .nav-link{
+      padding: 15px 25px;
+      color: #000000;
+      font-size: 18px;
+      }
+      .nav-item:hover{
+      color: #fff;
+      background-color: #77b2c7;
+      }
+      .main-toolbar{
+      display: flex;
+      align-items: center;
+      border-left: 1px solid #f1f2f6;
+      padding-left: 10px;
+      }
+    </style>
+
+ <!-- <nav class="p-0 position-relative" style="margin-left:16.5%;">
+        
+    </nav>  -->
+
+    <div class="border-dark main-toolbar  bg-custom-3 d-flex justify-content-between ">
+
+          <img src="/images/logo.png" style="width: 10rem;" alt="logo">
+          
+
+          
+          <!-- Example split danger button -->
+        <!-- <div class="btn-group m-3">
+          <button type="button" class="btn btn-danger"><i class="fa-solid fa-duotone fa-user pe-2"></i>Admin</button>
+          <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+           
+          </button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Separated link</a>
+          </div>
+        </div> -->
+           
+        <div class="pe-5">
+          <a href="/admin/logout" class="btn btn-danger" >Logout</a>
+        </div>
+    </div>
+    
+    
+
+           <!-- side-bar -->
+
+      <div class=" col-md-2 bg-custom-1 p-0" id="navbarToggleExternalContent" style="float:left;">
+        <!-- <header class="bg-custom-2 p-3 ps-4">
+                <div class="p-5">
+                    <img src="" alt="profile pic">
+                </div>
+         <a href="">ATHUL RAMESHAN</a>
+        </header> -->
+        <ul class="nav flex-column">
+          <li class="nav-item d-flex align-items-center">
+            <i class="nav-font fa-solid fa-chart-line p-3"></i>
+            <a class="nav-link" href="">Dashboard</a>
+          </li>
+          <li class="nav-item d-flex align-items-center">
+            <i class="fa-solid fa-truck-ramp-box p-3"></i>
+            <a class="nav-link" href="/admin/products">Products</a>
+          </li>
+          <li class="nav-item d-flex align-items-center">
+            <i class="fa-solid fa-layer-group p-3"></i>
+            <a class="nav-link" href="/admin/categoriesAndBrands">Categories & Brands</a>
+          </li>
+          <li class="nav-item d-flex align-items-center">
+            <i class="fa-solid fa-credit-card p-3"></i>
+            <a class="nav-link" href="#">Payments</a>
+          </li>
+          
+          <!-- <li class="nav-item d-flex">
+            <a class="nav-link" href="#">Admins</a>
+          </li>
+        -->
+
+          <li class="nav-item d-flex align-items-center">
+            <i class="fa-solid fa-users p-3"></i>
+            <a class="nav-link" href="/admin/customers">Customers</a>
+          </li>
+          <li class="nav-item d-flex align-items-center">
+           <i class="fa-solid fa-bag-shopping p-3"></i>
+            <a class="nav-link ps-4" href="#" >Orders</a>
+          </li>
+         <li class="nav-item d-flex align-items-center">
+            <i class="fa-sharp fa-solid fa-tag p-3"></i>
+            <a class="nav-link" href="#">Coupons</a>
+          </li>
+          <li class="nav-item d-flex align-items-center">
+            <i class="fa-solid fa-panorama p-3"></i>
+            <a class="nav-link" href="#">Banners</a>
+          </li>
+        </ul>
+      </div>
+    
+   
+   
+    
+     <script>
+/* 
+      function openNav() {
+            
+            let myNav = document.getElementById("navbarToggleExternalContent");
+            
+            myNav.style.display = myNav.style.display === 'none' ? '' : 'none';
+            
+            document.getElementById("demo").onclick = closeNav();
+      
+            let element = document.getElementById("uiNavbar");
+      
+            let x = window.matchMedia("(max-width: 700px)");
+      
+            if (x.matches) {
+      
+                  element.classList.remove("col-12");
+      
+                  element.classList.remove("col-md-12");
+      
+                  element.classList.add("col-6");
+      
+                  element.classList.add("col-6");
+      
+      
+            } else{
+      
+                  element.classList.remove("col-md-12");
+                 
+                  element.classList.remove("col-12");
+      
+                  element.classList.add("col-md-10");
+                  
+                  element.classList.add("col-6");
+      
+      
+            }
+      
+      }
+      
+      function closeNav() {
+      
+            document.getElementById("navbarToggleExternalContent").style.display = "none";
+            
+            document.getElementById("demo").onclick = openNav;
+      
+            let element = document.getElementById("uiNavbar");
+      
+            let x = window.matchMedia("(max-width: 700px)");
+      
+            if (x.matches) {
+      
+                  element.classList.remove("col-md-10");
+      
+                  element.classList.remove("col-6");
+      
+                  element.classList.add("col-12");
+      
+                  element.classList.add("col-md-12");
+      
+      
+            } else{
+      
+                  element.classList.remove("col-sm-10");
+      
+                  element.classList.remove("col-md-10");
+      
+                  element.classList.add("col-md-12");
+                  
+                  element.classList.add("col-12");
+      
+            }
+      
+          
+      }
+    */
+      
+    </script>
+    

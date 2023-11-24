@@ -1,0 +1,78 @@
+<%-include ('../layouts/header') %>
+
+
+
+
+    <div class="main-navbar shadow-sm ">
+        <div class="top-navbar">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="d-flex justify-content-between">
+
+                        <img src="/images/logo.png" style="max-height: 70px;" alt="logo">
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <section>
+        <div class="card shadow m-5">
+            <div class="card-body mt-5 me-5 mb-5">
+                <div class="icon text-center">
+                    <h1>Admin Log In</h1>
+                </div>
+                <div class="row justify-content-center align-items-center ">
+                    <div class="col-md-3 loginBorder position-relative m-5">
+
+                        <form id="loginForm" action="/admin/login" method="post">
+
+                            <% if (message) { %>
+                                <div>
+                                    <span class="text-danger">
+                                        <%= message.adminLoginError %>
+                                    </span>
+                                </div>
+                                <% } %>
+
+                                    <div class="mb-3">
+
+                                        <input type="email" name="email" class="form-control "
+                                            style="border:none;border-bottom: 1px solid; border-radius: 0;" id="email"
+                                            placeholder="Enter your email">
+                                    </div>
+                                    <div class="mb-3">
+
+                                        <input type="password" name="password" class="form-control"
+                                            style="border:none;border-bottom: 1px solid; border-radius: 0;"
+                                            id="loginPassword" placeholder="Enter your password">
+                                    </div>
+
+                                    <button type="submit" id="userLogged" class="btn btn-dark"
+                                        style="width: -webkit-fill-available;">Login</button>
+                        </form>
+                    </div>
+
+                    <!-- Right Div: image -->
+                    <div class="col-md-3   ps-5 position-relative">
+                        <div class="d-flex align-items-center justify-content-start">
+                            <img src="/images/logo.png" alt="" class="ms-2 position-absolute" />
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+
+
+    </section>
+    <%-include ('../layouts/adminFooter') %>

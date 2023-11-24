@@ -1,0 +1,768 @@
+<%- include ('../layouts/header') %>
+ 
+
+        <style>
+            .image-wrapper {
+                width: 100%;
+                /* Make the image wrapper fill the width of the container */
+                height: 100%;
+                /* Make the image wrapper fill the height of the container */
+                overflow: hidden;
+                /* Hide any image overflow that might occur */
+            }
+
+            .image-wrapper img {
+                width: 100%;
+                /* Make the image fill the width of the image wrapper */
+                height: 100%;
+                /* Make the image fill the height of the image wrapper */
+                object-fit: cover;
+                /* Maintain aspect ratio and cover the image wrapper */
+            }
+
+            .product-grid {
+                font-family: 'Roboto', sans-serif;
+                text-align: center;
+                transition: all 0.5s;
+                border: 1px solid;
+            }
+
+            .product-grid:hover {
+                box-shadow: 0 5px 18px rgba(0, 0, 0, 0.3);
+            }
+
+            .product-grid .product-image {
+                position: relative;
+                overflow: hidden;
+            }
+
+            .product-grid .product-image a.image {
+                display: block;
+            }
+
+            .product-grid .product-image img {
+                width: 100%;
+                height: auto;
+
+            }
+
+            .product-image .pic-1 {
+                opacity: 1;
+                backface-visibility: hidden;
+                transition: all 0.5s;
+            }
+
+            .product-grid:hover .product-image .pic-1 {
+                opacity: 0;
+            }
+
+            .product-image .pic-2 {
+                width: 100%;
+                height: 100%;
+                backface-visibility: hidden;
+                opacity: 0;
+                position: absolute;
+                top: 0;
+                left: 0;
+                transition: all 0.5s;
+            }
+
+            .product-grid:hover .product-image .pic-2 {
+                opacity: 1;
+            }
+
+            .product-grid .product-sale-label {
+                color: #fff;
+                background: #6da84a;
+                font-size: 14px;
+                font-style: italic;
+                text-transform: uppercase;
+                width: 55px;
+                height: 55px;
+                line-height: 55px;
+                border-radius: 50px;
+                position: absolute;
+                top: 10px;
+                left: 10px;
+            }
+
+            .product-grid .social {
+                padding: 0;
+                margin: 0;
+                list-style: none;
+                position: absolute;
+                top: 15px;
+                right: 7px;
+            }
+
+            .product-grid .social li {
+                transform: translateX(60px);
+                transition: all 0.3s ease 0.3s;
+            }
+
+            .product-grid .social li:nth-child(2) {
+                transition: all 0.3s ease 0.4s;
+            }
+
+            .product-grid:hover .social li {
+                transform: translateX(0);
+            }
+
+            .product-grid .social li a {
+                color: #707070;
+                background: #fff;
+                font-size: 16px;
+                line-height: 40px;
+                width: 40px;
+                height: 40px;
+                margin: 0 0 7px;
+                border-radius: 50px;
+                display: block;
+                transition: all 0.3s ease 0s;
+            }
+
+            .product-grid .social li a:hover {
+                color: #6DA84A;
+            }
+
+            .product-grid .product-rating {
+                background: rgba(255, 255, 255, 0.95);
+                width: 100%;
+                padding: 10px;
+                opacity: 0;
+                position: absolute;
+                bottom: -60px;
+                left: 0;
+                transition: all .2s ease-in-out 0s;
+            }
+
+            .product-grid:hover .product-rating {
+                opacity: 1;
+                bottom: 0;
+            }
+
+            .product-grid .rating {
+                padding: 0;
+                margin: 0;
+                list-style: none;
+                float: left;
+            }
+
+            .product-grid .rating li {
+                color: #6DA84A;
+                font-size: 13px;
+            }
+
+            .product-grid .rating li.far {
+                color: #999;
+            }
+
+            .product-grid .add-to-cart {
+                color: #6DA84A;
+                font-size: 14px;
+                font-weight: 600;
+                border-bottom: 1px solid #6DA84A;
+                float: right;
+                transition: all .2s ease-in-out 0s;
+            }
+
+            .product-grid .add-to-cart:hover {
+                color: #000;
+                border-color: #000;
+            }
+
+            .product-grid .product-content {
+                background: #F5F5F5;
+                padding: 15px;
+            }
+
+            .product-grid .title {
+                font-size: 18px;
+                text-transform: capitalize;
+                margin: 0 0 5px;
+            }
+
+            .product-grid .title a {
+                color: #111;
+                transition: all 500ms;
+            }
+
+            .product-grid .title a:hover {
+                color: #6DA84A;
+            }
+
+            .product-grid .price {
+                color: #707070;
+                font-size: 17px;
+                text-decoration: underline;
+            }
+
+            .product-grid .price span {
+                text-decoration: line-through;
+                margin-right: 5px;
+                display: inline-block;
+                opacity: 0.6;
+            }
+
+            @media only screen and (max-width:990px) {
+                .product-grid {
+                    margin-bottom: 40px;
+                }
+            }
+        </style>
+        
+<body >
+
+    <div class="main-navbar shadow-sm sticky-top">
+        <div class="top-navbar">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-2 my-auto d-none d-sm-none d-md-block d-lg-block">
+                        <a class="navbar-brand" href="/home">
+                            <img src="/images/logo.png" style="max-height: 70px;" alt="">
+                        </a>
+                    </div>
+                    <div class="col-md-5 my-auto">
+                        <form role="search">
+                            <div class="input-group">
+                                <input type="search" placeholder="Search your product" class="form-control" />
+                                <button class="btn bg-white" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-5 my-auto">
+                        <ul class="nav justify-content-end">
+                       
+                          
+                               
+                         
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link " href="/signup" id="navbarDropdown" aria-expanded="false">
+                                        <i class="fa fa-user"></i> SignUp
+                                    </a>
+                                </li>
+                         
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid" style="background: linear-gradient(to bottom,#201E20,#DDC3A5,#E0A96D);">
+                <a class="navbar-brand d-block d-sm-block d-md-none d-lg-none" href="#">
+                   SMASHER
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">HOME</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/shopProduct">SHOP</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">ALL CATEGORIES</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">TENNIS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">BADMINTON</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">SQUASH</a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="#">Fashions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Accessories</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Appliances</a>
+                        </li> -->
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+
+        <div class="">
+            <div class="image-wrapper">
+                <img src="/images/banner.jpeg" alt="">
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-grid m-3 single-product">
+                        <div class="product-image ">
+                            <a href="#" class="image">
+                                <img class="pic-1" src="/uploads/1697200692695.jpg">
+                                <img class="pic-2" src="/uploads/1697196018939.jpg">
+                            </a>
+
+                            <ul class="social">
+                                <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                                <li><a href="#" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
+                            </ul>
+                            <div class="product-rating">
+                                <ul class="rating">
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                </ul>
+                                <a class="add-to-cart" href="#"> ADD TO CART </a>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="title"><a href="#">BADMINTON RACKET</a></h3>
+                            <div class="price"><span>$28.00</span>$20.00</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-grid m-3 single-product">
+                        <div class="product-image single-image">
+                            <a href="#" class="image">
+                                <img class="pic-1" src="/uploads/1697196936809.jpg">
+                                <img class="pic-2" src="/uploads/1697196936805.jpg">
+                            </a>
+                            <ul class="social">
+                                <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                                <li><a href="#" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
+                            </ul>
+                            <div class="product-rating">
+                                <ul class="rating">
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                </ul>
+                                <a class="add-to-cart" href="#"> ADD TO CART </a>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="title"><a href="#">TENNIS RACKET</a></h3>
+                            <div class="price">$19.00</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-grid m-3 single-product">
+                        <div class="product-image single-image">
+                            <a href="#" class="image">
+                                <img class="pic-1" src="/uploads/1697198627774.jpg">
+                                <img class="pic-2" src="/uploads/1697198627774.jpg">
+                            </a>
+
+                            <ul class="social">
+                                <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                                <li><a href="#" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
+                            </ul>
+                            <div class="product-rating">
+                                <ul class="rating">
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                </ul>
+                                <a class="add-to-cart" href="#"> ADD TO CART </a>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="title"><a href="#">BADMINTON RACKET</a></h3>
+                            <div class="price"><span>$28.00</span>$20.00</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-grid m-3 single-product">
+                        <div class="product-image single-image">
+                            <a href="#" class="image">
+                                <img class="pic-1" src="/uploads/1697200167179.jpg">
+                                <img class="pic-2" src="/uploads/1697200692699.jpg">
+                            </a>
+                            <ul class="social">
+                                <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                                <li><a href="#" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
+                            </ul>
+                            <div class="product-rating">
+                                <ul class="rating">
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                </ul>
+                                <a class="add-to-cart" href="#"> ADD TO CART </a>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="title"><a href="#">TENNIS RACKET</a></h3>
+                            <div class="price">$19.00</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-grid m-3 single-product">
+                        <div class="product-image ">
+                            <a href="#" class="image">
+                                <img class="pic-1" src="/uploads/1697196018935.jpg">
+                                <img class="pic-2" src="/uploads/1697196018939.jpg">
+                            </a>
+
+                            <ul class="social">
+                                <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                                <li><a href="#" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
+                            </ul>
+                            <div class="product-rating">
+                                <ul class="rating">
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                </ul>
+                                <a class="add-to-cart" href="#"> ADD TO CART </a>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="title"><a href="#">BADMINTON RACKET</a></h3>
+                            <div class="price"><span>$28.00</span>$20.00</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-grid m-3 single-product">
+                        <div class="product-image single-image">
+                            <a href="#" class="image">
+                                <img class="pic-1" src="/uploads/1697196936809.jpg">
+                                <img class="pic-2" src="/uploads/1697196936805.jpg">
+                            </a>
+                            <ul class="social">
+                                <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                                <li><a href="#" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
+                            </ul>
+                            <div class="product-rating">
+                                <ul class="rating">
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                </ul>
+                                <a class="add-to-cart" href="#"> ADD TO CART </a>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="title"><a href="#">TENNIS RACKET</a></h3>
+                            <div class="price">$19.00</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-grid m-3 single-product">
+                        <div class="product-image single-image">
+                            <a href="#" class="image">
+                                <img class="pic-1" src="/uploads/1697198627774.jpg">
+                                <img class="pic-2" src="/uploads/1697198627774.jpg">
+                            </a>
+
+                            <ul class="social">
+                                <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                                <li><a href="#" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
+                            </ul>
+                            <div class="product-rating">
+                                <ul class="rating">
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                </ul>
+                                <a class="add-to-cart" href="#"> ADD TO CART </a>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="title"><a href="#">BADMINTON RACKET</a></h3>
+                            <div class="price"><span>$28.00</span>$20.00</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-grid m-3 single-product">
+                        <div class="product-image single-image">
+                            <a href="#" class="image">
+                                <img class="pic-1" src="/uploads/1697200167179.jpg">
+                                <img class="pic-2" src="/uploads/1697200692699.jpg">
+                            </a>
+                            <ul class="social">
+                                <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                                <li><a href="#" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
+                            </ul>
+                            <div class="product-rating">
+                                <ul class="rating">
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                </ul>
+                                <a class="add-to-cart" href="#"> ADD TO CART </a>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="title"><a href="#">TENNIS RACKET</a></h3>
+                            <div class="price">$19.00</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-grid m-3 single-product">
+                        <div class="product-image ">
+                            <a href="#" class="image">
+                                <img class="pic-1" src="/uploads/1697196018935.jpg">
+                                <img class="pic-2" src="/uploads/1697196018939.jpg">
+                            </a>
+
+                            <ul class="social">
+                                <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                                <li><a href="#" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
+                            </ul>
+                            <div class="product-rating">
+                                <ul class="rating">
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                </ul>
+                                <a class="add-to-cart" href="#"> ADD TO CART </a>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="title"><a href="#">BADMINTON RACKET</a></h3>
+                            <div class="price"><span>$28.00</span>$20.00</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-grid m-3 single-product">
+                        <div class="product-image single-image">
+                            <a href="#" class="image">
+                                <img class="pic-1" src="/uploads/1697196936809.jpg">
+                                <img class="pic-2" src="/uploads/1697196936805.jpg">
+                            </a>
+                            <ul class="social">
+                                <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                                <li><a href="#" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
+                            </ul>
+                            <div class="product-rating">
+                                <ul class="rating">
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                </ul>
+                                <a class="add-to-cart" href="#"> ADD TO CART </a>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="title"><a href="#">TENNIS RACKET</a></h3>
+                            <div class="price">$19.00</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-grid m-3 single-product">
+                        <div class="product-image single-image">
+                            <a href="#" class="image">
+                                <img class="pic-1" src="/uploads/1697198627774.jpg">
+                                <img class="pic-2" src="/uploads/1697198627774.jpg">
+                            </a>
+
+                            <ul class="social">
+                                <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                                <li><a href="#" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
+                            </ul>
+                            <div class="product-rating">
+                                <ul class="rating">
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                </ul>
+                                <a class="add-to-cart" href="#"> ADD TO CART </a>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="title"><a href="#">BADMINTON RACKET</a></h3>
+                            <div class="price"><span>$28.00</span>$20.00</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-grid m-3 single-product">
+                        <div class="product-image single-image">
+                            <a href="#" class="image">
+                                <img class="pic-1" src="/uploads/1697200167179.jpg">
+                                <img class="pic-2" src="/uploads/1697200692699.jpg">
+                            </a>
+                            <ul class="social">
+                                <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                                <li><a href="#" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
+                            </ul>
+                            <div class="product-rating">
+                                <ul class="rating">
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                </ul>
+                                <a class="add-to-cart" href="#"> ADD TO CART </a>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="title"><a href="#">TENNIS RACKET</a></h3>
+                            <div class="price">$19.00</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-grid m-3 single-product">
+                        <div class="product-image ">
+                            <a href="#" class="image">
+                                <img class="pic-1" src="/uploads/1697196018935.jpg">
+                                <img class="pic-2" src="/uploads/1697196018939.jpg">
+                            </a>
+
+                            <ul class="social">
+                                <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                                <li><a href="#" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
+                            </ul>
+                            <div class="product-rating">
+                                <ul class="rating">
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                </ul>
+                                <a class="add-to-cart" href="#"> ADD TO CART </a>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="title"><a href="#">BADMINTON RACKET</a></h3>
+                            <div class="price"><span>$28.00</span>$20.00</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-grid m-3 single-product">
+                        <div class="product-image single-image">
+                            <a href="#" class="image">
+                                <img class="pic-1" src="/uploads/1697196936809.jpg">
+                                <img class="pic-2" src="/uploads/1697196936805.jpg">
+                            </a>
+                            <ul class="social">
+                                <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                                <li><a href="#" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
+                            </ul>
+                            <div class="product-rating">
+                                <ul class="rating">
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                </ul>
+                                <a class="add-to-cart" href="#"> ADD TO CART </a>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="title"><a href="#">TENNIS RACKET</a></h3>
+                            <div class="price">$19.00</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-grid m-3 single-product">
+                        <div class="product-image single-image">
+                            <a href="#" class="image">
+                                <img class="pic-1" src="/uploads/1697198627774.jpg">
+                                <img class="pic-2" src="/uploads/1697198627774.jpg">
+                            </a>
+
+                            <ul class="social">
+                                <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                                <li><a href="#" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
+                            </ul>
+                            <div class="product-rating">
+                                <ul class="rating">
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                </ul>
+                                <a class="add-to-cart" href="#"> ADD TO CART </a>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="title"><a href="#">BADMINTON RACKET</a></h3>
+                            <div class="price"><span>$28.00</span>$20.00</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-grid m-3 single-product">
+                        <div class="product-image single-image">
+                            <a href="#" class="image">
+                                <img class="pic-1" src="/uploads/1697200167179.jpg">
+                                <img class="pic-2" src="/uploads/1697200692699.jpg">
+                            </a>
+                            <ul class="social">
+                                <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                                <li><a href="#" data-tip="Add to wishlist"><i class="fa fa-heart"></i></a></li>
+                            </ul>
+                            <div class="product-rating">
+                                <ul class="rating">
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                </ul>
+                                <a class="add-to-cart" href="#"> ADD TO CART </a>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="title"><a href="#">TENNIS RACKET</a></h3>
+                            <div class="price">$19.00</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <%- include ('../partials/userFooter') %>
+            <%- include ('../layouts/footer') %>

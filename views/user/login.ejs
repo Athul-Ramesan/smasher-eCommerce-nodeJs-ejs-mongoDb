@@ -1,0 +1,76 @@
+<%- include ('../layouts/header') %>
+
+
+    <div class="main-navbar shadow-sm sticky-top">
+        <div class="top-navbar">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="d-flex justify-content-between">
+                        <a class="navbar-brand" href="/home">
+                            <img src="/images/logo.png" style="max-height: 70px;" alt="logo">
+                        </a>
+                        <a href="/signup" class=" text-decoration-none text-white pt-3 pe-5">SignUp</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <section>
+        <div class="card shadow mt-5 container-fluid">
+            <div class=" text-center  mt-5 me-5 mb-5">
+                <h1>Log In</h1>
+            </div>
+            <div class="row justify-content-center align-items-center ">
+                <div class="col-md-3 loginBorder position-relative  pe-3">
+                    <div class="orText d-none d-md-block"></div>
+                    <form id="loginForm" action="/login" method="post">
+
+                        <% if (message) { %>
+                            <div>
+                                <span class="text-danger">
+                                    <%= message.userLoginError %>
+                                </span>
+                            </div>
+                            <% } %>
+
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email address</label>
+                                    <input type="email" name="email" class="form-control" id="email"
+                                        placeholder="Enter your email">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" name="password" class="form-control" id="loginPassword"
+                                        placeholder="Enter your password">
+                                </div>
+                                <div class="mb-3">
+                                    <a href="/forgotpassword" class="text-decoration-none text-dark">Forgot
+                                        password?</a>
+                                </div>
+                                <button type="submit" id="userLogged" class="btn btn-dark"
+                                    style="width: -webkit-fill-available;">Login</button>
+                    </form>
+                </div>
+
+                <!-- Right Div: image-->
+                <div class="col-md-3  m-3 pe-3 ps-0 position-relative">
+
+                        <img src="/images/logo.png" alt="" class="ms-2 img-fluid"  />
+     
+                </div>
+
+            </div>
+            <div class="text-center m-3">
+                <a href="/signup" class="text-decoration-none text-dark">Create Account</a>
+            </div>
+
+        </div>
+
+    </section>
+    <script>
+        
+    </script>
+
+    <%- include ('../layouts/footer') %>
