@@ -14,6 +14,7 @@ module.exports = {
 
     postAdminAddBanner: async (req, res) => {
         try {
+            console.log(req.body,'reqa;lsjl');
             const name = req.body.name.trim()
             if(!name){
                 req.flash("validation", "Banner name should not be empty")

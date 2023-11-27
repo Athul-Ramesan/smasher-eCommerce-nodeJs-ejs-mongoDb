@@ -5,7 +5,9 @@ const fs = require('fs');
 
 
 const storage = multer.diskStorage({
+    
     destination: (req, file, cb) => {
+        console.log('inside multer file')
         const directory = 'public/uploads'
         if (!fs.existsSync(directory)) {
             fs.mkdirSync(directory)
