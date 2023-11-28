@@ -54,7 +54,8 @@ module.exports = {
                     totalDiscount = 0;
                 }
                 cart.totalAmount = totalAmount
-                cart.totalDiscount = totalDiscount
+                cart.totalDiscount = totalDiscount- cart.couponDiscountAmount
+                console.log(cart.totalAmount,'totaldiscount-coupon');
 
             }).catch(err => {
                 console.log(err);

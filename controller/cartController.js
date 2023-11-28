@@ -3,7 +3,8 @@ const cartModel = require('../models/cartModel')
 const productModel = require('../models/productModel');
 const stockService = require('../services/stockService')
 
-const cartService = require('../services/cartService')
+const cartService = require('../services/cartService');
+const couponModel = require('../models/couponModel');
 
 module.exports = {
     getAddToCart: async (req, res) => {
@@ -49,7 +50,7 @@ module.exports = {
                     await cartModel.findOneAndUpdate({ userId: user._id }, userCart)
                     const cartCount = userCart.items.length
                     console.log(cartCount, 'cartCount');
-                    
+
                     res.json({ success: true, cartCount })
                 }
             } else {
@@ -70,7 +71,7 @@ module.exports = {
 
             await cartService.calculateCartTotal(req.session.user._id)
             const cart = await cartModel.findOne({ userId: user._id }).populate('items.productId')
-
+            const coupons = await couponModel.find({})
             const products = await productModel.find({})
             // console.log(cart);
             // if(cart.items){
@@ -86,7 +87,8 @@ module.exports = {
                 products,
                 cart,
                 wishlist: false,
-                message: req.flash()
+                message: req.flash(),
+                coupons
             })
 
         } catch (error) {
@@ -117,7 +119,7 @@ module.exports = {
             itemToUpdate.quantity = newQuantity;
             await cart.save()
 
-            const {totalAmount,totalDiscount} = await cartService.calculateCartTotal(req.session.user._id)
+            const { totalAmount, totalDiscount } = await cartService.calculateCartTotal(req.session.user._id)
 
 
             const product = await productModel.findById(productId)
@@ -159,32 +161,32 @@ module.exports = {
 
 
     },
-    applyCoupon:async(req,res)=>{
+    applyCoupon: async (req, res) => {
         const body = req.body
-      const userId = req.session.user._id;
-        console.log(body,'body');
-      cartService.applyCoupon(body.coupon,userId)
-      .then(async(result)=>{
+        const userId = req.session.user._id;
+        console.log(body, 'body');
+        cartService.applyCoupon(body.coupon, userId)
+            .then(async (result) => {
 
-        console.log(result,'result inside then before response');
-        res.json({...result,success:true})
-      }).catch((err)=>{
-        console.log(err.message,'err inside catch before response');
-        res.json(err.message)
-      })
+                console.log(result, 'result inside then before response');
+                res.json({ ...result, success: true })
+            }).catch((err) => {
+                console.log(err.message, 'err inside catch before response');
+                res.json(err.message)
+            })
     },
     removeCoupon: async (req, res) => {
         try {
-          const userId = req.session.user._id;
-          await cartService.removeCoupon(userId)
-          .then(result=>{
-            res.json({...result,success:true})
-          })
-           
+            const userId = req.session.user._id;
+            await cartService.removeCoupon(userId)
+                .then(result => {
+                    res.json({ ...result, success: true })
+                })
+
         } catch (error) {
-          console.error(error.message,'error in catch');
-          res.json(error.message)
-          
+            console.error(error.message, 'error in catch');
+            res.json(error.message)
+
         }
-      }
+    }
 }

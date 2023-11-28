@@ -138,7 +138,7 @@ module.exports = {
             const paymentMethod = req.body.paymentMethod;
             const cart = await cartModel.findOne({ userId: userId }).populate('items.productId')
             console.log(cart);
-            const totalAmount = cart.totalAmount - cart.totalDiscount;
+            const totalAmount = cart.totalAmount - cart.totalDiscount- cart.couponDiscountAmount;
             const address = await addressModel.findOne({ userId: userId });
             let isStockEmpty=false ;
             const shippingAddress = address.address.find((item) => item._id.equals(addressId))

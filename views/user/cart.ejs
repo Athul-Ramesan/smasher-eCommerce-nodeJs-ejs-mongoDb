@@ -184,13 +184,45 @@
                     </div>
                     <div id="coupon-error"  class="alert alert-danger " role="alert" hidden>
                     </div>
-                 
+                    <div>
+                      <a href="" class=" btn btn-outline-dark btn-sm mt-3 ms-1"  data-bs-toggle="modal" data-bs-target="#exampleModal">Show Coupons</a>
+                    </div>
                       <button data-couponId="<%=cart?.couponId%>" id="removeCoupon" class="text-danger d-none border-0 bg-transparent " > remove coupon </button>
                     
                   </div>
                 </form>
               </div>
             </div>
+
+            <!-- show coupon modal -->
+            <% if(coupons){ %>
+              
+            <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" tabindex="-1">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  
+                  <div class="modal-body">
+                    <% coupons.forEach((coupon)=>{ %> 
+                    <div class="d-flex gap-4">
+                      <p>Coupon: <%= coupon.couponName %></p> <p>Code: <%=coupon.couponCode%></p>
+                      <p>Amount: ₹<%=coupon.discountAmount%></p>
+                    </div>
+                    <%  })%>  %>
+                  </div>
+                  
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <%} %>
+<!-- show coupon modal ends -->
+
             <div class="card shadow-0 border">
               <div class="card-body">
                 <div class="d-flex justify-content-between">
@@ -469,6 +501,7 @@
               if (response.success) {
                 
                 
+
                 const couponErrorMessage = document.getElementById('coupon-error')
                 const removeCoupon = document.getElementById('removeCoupon')
 
@@ -479,15 +512,18 @@
                 couponErrorMessage.hidden =false
                 
                 removeCoupon.hidden= false
+                
               }
               else {
                 console.log(response,'response');
-                
+         
+
                 const couponErrorMessage = document.getElementById('coupon-error')
                 couponErrorMessage.classList.remove('alert-success')
                 couponErrorMessage.classList.add('alert-danger')
                 couponErrorMessage.innerHTML = response
                 couponErrorMessage.hidden =false
+                
               }
             })
             .catch((error) => {

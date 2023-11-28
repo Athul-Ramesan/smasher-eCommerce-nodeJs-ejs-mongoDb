@@ -20,7 +20,7 @@ module.exports = {
             console.log('generatedOrderId',generatedOrderId);
 
                 const cart = await cartModel.findOne({ userId: userId }).populate('items.productId')
-                const totalAmount = cart.totalAmount-cart.totalDiscount;
+                const totalAmount = cart.totalAmount-cart.totalDiscount-cart.couponDiscountAmount;
                 const address = await addressModel.findOne({ userId: userId });
                 console.log(address);
                 const shippingAddress = address.address.find((item) => item._id.equals(addressId))

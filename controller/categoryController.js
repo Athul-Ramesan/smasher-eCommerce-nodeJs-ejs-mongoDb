@@ -2,8 +2,10 @@
 const categoryModel = require('../models/categoryModel')
 const brandModel = require('../models/brandModel');
 const productModel = require('../models/productModel')
-const { CATEGORY, BRAND } = require('../utils/constants/schemaName')
-
+const { CATEGORY, BRAND } = require('../utils/constants/schemaName');
+const { default: mongoose } = require('mongoose');
+const userModel = require('../models/userModel')
+const cartModel = require('../models/cartModel')
 module.exports = {
 
     getAdminCategoriesAndBrands: async (req, res) => {
@@ -78,6 +80,229 @@ module.exports = {
             console.log(error);
         }
     },
+    getTennis: async(req,res)=>{
+
+        console.log('inside gettennis');
+        const itemsPerPage = 5;
+        const currentPage = parseInt(req.query.page) || 1;
+        const skip = (currentPage - 1) * itemsPerPage;
+        try {
+            const category = await categoryModel.findOne({name:'Tennis'})
+            const categoryId= category._id
+            console.log(category,'category');
+            const totalItems = await productModel.find({category:new mongoose.Types.ObjectId(categoryId)}).countDocuments();
+            console.log(totalItems,'totalItems');
+            const totalPages = Math.ceil(totalItems / itemsPerPage)
+
+
+
+            const products = await productModel
+                .find({ active: true, category:new mongoose.Types.ObjectId(categoryId) })
+                .skip(skip)
+                .limit(itemsPerPage)
+
+            const categories = await categoryModel.find()
+            const brands = await brandModel.find()
+
+            if (req.session.user) {
+                const user = await userModel.findById(req.session.user._id)
+                const cart = await cartModel.findOne({ userId: req.session.user._id })
+                res.render('user/tennis', {
+                    currentPage,
+                    totalPages,
+                    products,
+                    user,
+                    brands,
+                    cart,
+                    categories,
+                    wishlist: false,
+                    message: req.flash()
+                })
+            } else {
+                console.log('inside gettennis no user');
+                res.render('user/tennis', {
+                    currentPage,
+                    totalPages,
+                    products,
+                    brands,
+                    categories,
+                    user: req.session.user,
+                    cart: false,
+                    wishlist: false,
+                    message: req.flash()
+                })
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+    },
+    getBadminton: async(req,res)=>{
+       
+        const itemsPerPage = 5;
+        const currentPage = parseInt(req.query.page) || 1;
+        const skip = (currentPage - 1) * itemsPerPage;
+        try {
+            const category = await categoryModel.findOne({name:'Badminton'})
+            const categoryId= category._id
+          
+            const totalItems = await productModel.find({category:new mongoose.Types.ObjectId(categoryId)}).countDocuments();
+            console.log(totalItems,'totalItems');
+            const totalPages = Math.ceil(totalItems / itemsPerPage)
+
+
+
+            const products = await productModel
+                .find({ active: true, category:new mongoose.Types.ObjectId(categoryId) })
+                .skip(skip)
+                .limit(itemsPerPage)
+
+            const categories = await categoryModel.find()
+            const brands = await brandModel.find()
+
+            if (req.session.user) {
+                const user = await userModel.findById(req.session.user._id)
+                const cart = await cartModel.findOne({ userId: req.session.user._id })
+                res.render('user/badminton', {
+                    currentPage,
+                    totalPages,
+                    products,
+                    user,
+                    brands,
+                    cart,
+                    categories,
+                    wishlist: false,
+                    message: req.flash()
+                })
+            } else {
+                console.log('inside getbadminton no user');
+                res.render('user/badminton', {
+                    currentPage,
+                    totalPages,
+                    products,
+                    brands,
+                    categories,
+                    user: req.session.user,
+                    cart: false,
+                    wishlist: false,
+                    message: req.flash()
+                })
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+    },
+    getSquash: async(req,res)=>{
+        const itemsPerPage = 5;
+        const currentPage = parseInt(req.query.page) || 1;
+        const skip = (currentPage - 1) * itemsPerPage;
+        try {
+            const category = await categoryModel.findOne({name:'Squash'})
+            const categoryId= category._id
+          
+            const totalItems = await productModel.find({category:new mongoose.Types.ObjectId(categoryId)}).countDocuments();
+            console.log(totalItems,'totalItems');
+            const totalPages = Math.ceil(totalItems / itemsPerPage)
+
+
+
+            const products = await productModel
+                .find({ active: true, category:new mongoose.Types.ObjectId(categoryId) })
+                .skip(skip)
+                .limit(itemsPerPage)
+
+            const categories = await categoryModel.find()
+            const brands = await brandModel.find()
+
+            if (req.session.user) {
+                const user = await userModel.findById(req.session.user._id)
+                const cart = await cartModel.findOne({ userId: req.session.user._id })
+                res.render('user/squash', {
+                    currentPage,
+                    totalPages,
+                    products,
+                    user,
+                    brands,
+                    cart,
+                    categories,
+                    wishlist: false,
+                    message: req.flash()
+                })
+            } else {
+                console.log('inside getsquash no user');
+                res.render('user/squash', {
+                    currentPage,
+                    totalPages,
+                    products,
+                    brands,
+                    categories,
+                    user: req.session.user,
+                    cart: false,
+                    wishlist: false,
+                    message: req.flash()
+                })
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+    },
+    getTennisRackets: async(req,res)=>{
+       
+            const itemsPerPage = 5;
+            const currentPage = parseInt(req.query.page) || 1;
+            const skip = (currentPage - 1) * itemsPerPage;
+            try {
+                const category = await categoryModel.findOne({name:'Tennis'})
+                const categoryId= category._id
+              
+                const totalItems = await productModel.find({category:new mongoose.Types.ObjectId(categoryId),subcategory:'Racket'}).countDocuments();
+                console.log(totalItems,'totalItems');
+                const totalPages = Math.ceil(totalItems / itemsPerPage)
+    
+    
+                const products = await productModel
+                    .find({ active: true, category:new mongoose.Types.ObjectId(categoryId),subcategory:'Racket' })
+                    .skip(skip)
+                    .limit(itemsPerPage)
+    
+                const categories = await categoryModel.find()
+                const brands = await brandModel.find()
+    
+                if (req.session.user) {
+                    const user = await userModel.findById(req.session.user._id)
+                    const cart = await cartModel.findOne({ userId: req.session.user._id })
+                    res.render('user/subCategory', {
+                        currentPage,
+                        totalPages,
+                        products,
+                        user,
+                        brands,
+                        cart,
+                        categories,
+                        wishlist: false,
+                        message: req.flash()
+                    })
+                } else {
+                    console.log('inside getsquash no user');
+                    res.render('user/subCategory', {
+                        currentPage,
+                        totalPages,
+                        products,
+                        brands,
+                        categories,
+                        user: req.session.user,
+                        cart: false,
+                        wishlist: false,
+                        message: req.flash()
+                    })
+                }
+    
+            } catch (error) {
+                console.log(error);
+            }
+    }
 
 
 }

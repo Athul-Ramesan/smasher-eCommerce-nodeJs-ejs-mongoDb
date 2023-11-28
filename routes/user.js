@@ -30,7 +30,15 @@ router.post('/setNewPassword',userController.postSetNewPassword)
 router.get('/otpverification', userController.getVerifyOtp)
 router.post('/otpverification', userController.postVerifyOtp)
 
+// category
 
+router.get('/tennis',auth.verifyUser,categoryController.getTennis)
+router.get('/badminton',auth.verifyUser,categoryController.getBadminton)
+router.get('/squash',auth.verifyUser,categoryController.getSquash)
+
+// subcategory
+
+router.get('/tennisRackets',auth.verifyUser,categoryController.getTennisRackets)
 
 router.get('/otpVerificationPassword', userController.getOtpVerificationPassword)
 router.post('/otpVerificationPassword', userController.postOtpVerificationPassword)

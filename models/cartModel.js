@@ -32,7 +32,8 @@
             default: false
         },
         couponDiscountAmount:{
-            type: Number
+            type: Number,
+            default:0
         }
     })
 
