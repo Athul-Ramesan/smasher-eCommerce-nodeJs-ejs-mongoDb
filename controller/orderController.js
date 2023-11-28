@@ -336,7 +336,7 @@ module.exports = {
     },
     getOrders: async (req, res) => {
         try {
-            const orders = await orderModel.find({}).populate('items.productId')
+            const orders = await orderModel.find({userId: req.session.user._id}).populate('items.productId')
           
             const user = await userModel.findOne({ email: req.session.user.email });
             const cart = await cartModel.findOne({ userId: req.session.user._id });
