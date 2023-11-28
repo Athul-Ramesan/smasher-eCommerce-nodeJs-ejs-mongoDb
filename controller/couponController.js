@@ -59,6 +59,27 @@ module.exports = {
                 res.status(422).send({ errors: validationErrors });
             }
         }
+    },
+    deleteCoupon: async(req,res)=>{
+        const couponId = req.params.id;
+            try {
+                
+                console.log(couponId,'id');
+              
+    
+                await couponModel.findOneAndDelete(
+                    { _id: couponId }
+                  ).then(()=>{
+                    res.redirect('/admin/coupons')
+                  })
+            } catch (error) {
+                console.log(error);
+                if (error.isJoi) {
+                    const validationErrors = error.details.map((detail) => detail.message);
+                    res.status(422).send({ errors: validationErrors });
+                }
+            }
+        
     }
 
 }

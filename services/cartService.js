@@ -54,7 +54,7 @@ module.exports = {
                     totalDiscount = 0;
                 }
                 cart.totalAmount = totalAmount
-                cart.totalDiscount = totalDiscount- cart.couponDiscountAmount
+                cart.totalDiscount = totalDiscount
                 console.log(cart.totalAmount,'totaldiscount-coupon');
 
             }).catch(err => {
@@ -121,7 +121,7 @@ module.exports = {
                     await module.exports.couponValidationForApplyCoupon(coupon, cart, totalAmountBeforeCouponApply)
                         .then(async (result1) => {
 
-                            console.log(result1, 'result1 from couponvlaidation for apply coupon');
+                            // console.log(result1, 'result1 from couponvlaidation for apply coupon');
                             console.log('inside then of cooupon vlidation, we can assign coupon');
                             const result = await cartModel.findOneAndUpdate(
                                 { userId: userId },
@@ -131,7 +131,7 @@ module.exports = {
                                     couponDiscountAmount: result1.couponDiscountAmount
                                 }, { new: true }
                             )
-                            console.log(result, 'cart after updation');
+                            // console.log(result, 'cart after updation');
                             if (!result) {
                                 const error = new Error("Cannot apply coupon. Try again...");
                                 error.status = 400;
@@ -141,12 +141,14 @@ module.exports = {
                             }
                         })
                         .catch((err) => {
+                            console.log(err);
                             const error = new Error(err);
                             error.status = 400;
                             reject(error)
                         })
                 }
             } catch (error) {
+                console.log(error);
                 error.status = 500;
                 reject(error)
             }
@@ -199,7 +201,7 @@ module.exports = {
             },
                 {
                     isCouponApplied: false,
-                    couponDiscountAmount: 0
+                    couponDiscountAmount: 0,
                 })
         } catch (error) {
             throw error
@@ -210,7 +212,7 @@ module.exports = {
             try {
                 console.log('inside couponPerUserCountCheck');
                 const coupon = await couponModel.findOne({ couponCode: couponCode }).select("users maxUseCount")
-                console.log(coupon.users, coupon.maxUseCount, 'maxUseCount users and max use count');
+                // console.log(coupon.users, coupon.maxUseCount, 'maxUseCount users and max use count');
                 coupon.users.map(item => {
                     if (String(item.userId) === String(userId)) {
                         if (item.usedCount >= coupon.maxUseCount) {
@@ -220,7 +222,7 @@ module.exports = {
                 })
                 resolve("User is eligible for this coupon")
             } catch (error) {
-                console.log(error.message)
+                // console.log(error.message)
                 reject(error.message)
             }
         })
@@ -236,7 +238,8 @@ module.exports = {
                     },
                     {
                         isCouponApplied: false,
-                        couponDiscountAmount: 0
+                        couponDiscountAmount: 0,
+                        couponId: null
                     },
                     {
                         new: true

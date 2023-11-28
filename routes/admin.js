@@ -81,6 +81,7 @@ router.get('/removeCategoryOffer/:id',offerController.removeOffer)
 router.get('/coupons',couponController.getAdminCoupons)
 router.post('/coupons',couponController.postAdminAddCoupon)
 router.put('/coupons',couponController.editAdminCoupon)
+router.get('/deleteCoupon/:id',couponController.deleteCoupon)
 
 router.get('/banner',bannerController.getAdminBanner)
 router.get('/addBanner',bannerController.getAdminAddBanner)

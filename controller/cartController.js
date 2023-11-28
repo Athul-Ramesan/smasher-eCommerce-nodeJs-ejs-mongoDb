@@ -82,6 +82,12 @@ module.exports = {
             //         }
             //      })
             // }
+            // if(cart.items<=0){
+            //     await cartService.removeCoupon(user._id )
+            //     .then(result=>{
+            //         console.log(result);
+            //     })
+            // }
             res.render('user/cart', {
                 user,
                 products,
@@ -107,6 +113,7 @@ module.exports = {
             const netChange = req.body.quantity;
 
             const cart = await cartModel.findOne({ userId: req.session.user._id })
+                .populate('couponId')
 
             if (!cart) {
                 throw new Error('cart not found')
@@ -121,7 +128,35 @@ module.exports = {
 
             const { totalAmount, totalDiscount } = await cartService.calculateCartTotal(req.session.user._id)
 
+            const couponDiscountAmount = cart.isCouponApplied ? cart.couponId.discountAmount : 0
+            const minimumOrderAmount = cart.isCouponApplied ? cart.couponId.minimumOrderAmount : 0
+            
+            if (totalAmount < minimumOrderAmount) {
+                await cartService.removeCouponFromCart(cart._id)
+                    .then(result => {
+                        console.log(result, 'resultr after coupon rmvl frm cart quantity update');
+                    })
+            } else if (cart.couponId) {
 
+                await cartModel.findOneAndUpdate(
+                    { userId: req.session.user._id },
+                    {
+                        isCouponApplied: true,
+                        couponDiscountAmount: couponDiscountAmount
+                    }
+                )
+            }
+            const cartAfterUpdate = await cartModel.findOne({userId: req.session.user._id})
+            .populate('couponId')
+           
+            console.log(cartAfterUpdate,'cartafterupdateklllllllllllllllllllllllllllllllllll');
+            const couponDiscountAmountAfterInc = cartAfterUpdate.isCouponApplied ? cartAfterUpdate.couponId.discountAmount : 0
+
+            
+            const isCouponApplied =  cartAfterUpdate.isCouponApplied
+            const couponId = cartAfterUpdate.couponId ? cartAfterUpdate.couponId : null
+
+            console.log(couponId);
             const product = await productModel.findById(productId)
             console.log(product, 'product');
             const stock = product.stock;
@@ -130,7 +165,11 @@ module.exports = {
                 newQuantity,
                 totalAmount,
                 stock,
-                totalDiscount
+                totalDiscount,
+                isCouponApplied,
+                couponDiscountAmountAfterInc,
+                couponId
+
             })
         } catch (error) {
             throw error;
@@ -150,7 +189,11 @@ module.exports = {
                     }
                 },
                 { new: true }
-            ).then(() => {
+            ).then(async () => {
+                await cartService.removeCoupon(req.session.user._id)
+                    .then(result => {
+                        console.log(result);
+                    })
                 res.redirect('/cart')
             }).catch((error) => {
                 console.log(error);
@@ -168,9 +211,11 @@ module.exports = {
         cartService.applyCoupon(body.coupon, userId)
             .then(async (result) => {
 
+                // const cartData = await cartModel.
                 console.log(result, 'result inside then before response');
                 res.json({ ...result, success: true })
             }).catch((err) => {
+                console.log(err);
                 console.log(err.message, 'err inside catch before response');
                 res.json(err.message)
             })
