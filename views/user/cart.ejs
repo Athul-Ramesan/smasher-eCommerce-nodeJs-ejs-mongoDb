@@ -58,7 +58,7 @@
                                 onclick=" increaseQuantity('<%=item.productId._id%>',-1,'<%=item.productId.price%>')" >
                                       <i class="fas fa-minus"></i>
                                   </button>
-                                  <input data-stock="<%=item.productId.stock %>" type="text"
+                                  <input data-stock="<%=item.productId.stock %>" type="number"
                                     id="quantity_<%= item.productId._id%>"
                                     class="form-control text-center border border-secondary quantity "
                                     data-product-id="<%= item.productId._id%>" value="<%=item.quantity %>"
