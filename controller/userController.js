@@ -30,9 +30,10 @@ module.exports = {
     home: async (req, res) => {
         const products = await productModel.find({});
         const banner = await bannerModel.findOne({ status: 'Enabled' })
-        console.log(banner,'banner');
+        console.log(banner, 'banner');
         if (req.session && req.session.user) {
-
+            const user = await userModel.findOne({ _id: req.session.user._id })
+            const wishlist = user.wishlist
             const id = req.session.user._id
             const cart = await cartModel.findOne({ userId: id })
             console.log(cart, 'cart');
@@ -40,16 +41,16 @@ module.exports = {
                 user: req.session.user,
                 products,
                 cart,
-                wishlist: false,
+                wishlist,
                 banner,
                 message: req.flash()
             });
         } else {
-            res.render('user/home', { 
+            res.render('user/home', {
                 user: false,
-                 products ,
-                 banner
-                })
+                products,
+                banner
+            })
         }
 
 
@@ -319,12 +320,12 @@ module.exports = {
                 req.session.user = newUser
 
                 if (req.session.referalUserId) {
-                    
+
                     await userModel.updateOne(
                         { _id: req.session.referalUserId },
-                        { $inc: { walletAmount: 50 } } 
-                        
-                    ).then(result=>{
+                        { $inc: { walletAmount: 50 } }
+
+                    ).then(result => {
                         console.log(result);
                     })
                 }
@@ -343,12 +344,15 @@ module.exports = {
 
     getProfile: async (req, res) => {
         try {
+
             const user = await userModel.findOne({ email: req.session.user.email });
+
+            const wishlist = user.wishlist
             const cart = await cartModel.findOne({ userId: req.session.user._id })
             res.render('user/profile', {
                 user,
                 cart,
-                wishlist: false,
+                wishlist,
                 title: 'User-profile'
             })
 

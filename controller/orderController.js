@@ -91,6 +91,7 @@ module.exports = {
         try {
             const userId = req.session.user._id
             const user = await userModel.findOne({ email: req.session.user.email });
+            const wishlist = user.wishlist
             const cart = await cartModel.findOne({ userId: req.session.user._id }).populate('items.productId')
             const addresses = await addressModel.findOne({ userId: userId })
 
@@ -113,7 +114,7 @@ module.exports = {
                 res.render('user/checkout', {
                     user,
                     cart,
-                    wishlist: false,
+                    wishlist,
                     addresses,
                     message: req.flash()
                 })
@@ -282,8 +283,9 @@ module.exports = {
     getAddAddressCheckout: async (req, res) => {
         try {
             const user = await userModel.findOne({ email: req.session.user.email });
+            const wishlist = user.wishlist
             const cart = await cartModel.findOne({ userId: req.session.user._id })
-            res.render('user/addAddress', { user, cart, wishlist: false, message: req.flash() })
+            res.render('user/addAddress', { user, cart, wishlist, message: req.flash() })
         } catch (error) {
             console.log(error);
 
@@ -327,9 +329,10 @@ module.exports = {
     getOrderSuccess: async (req, res) => {
         const orderId = req.params.id;
         try {
-            const user = await userModel.findOne({ email: req.session.user.email });
+            const user = await userModel.findOne({ email: req.session.user.email })
+            const wishlist = user.wishlist
             const cart = await cartModel.findOne({ userId: req.session.user._id });
-            res.render('user/orderSuccess', { user, cart, wishlist: false, orderId })
+            res.render('user/orderSuccess', { user, cart, wishlist, orderId })
         } catch (error) {
 
         }
@@ -339,13 +342,14 @@ module.exports = {
             const orders = await orderModel.find({userId: req.session.user._id}).populate('items.productId')
           
             const user = await userModel.findOne({ email: req.session.user.email });
+            const wishlist = user.wishlist
             const cart = await cartModel.findOne({ userId: req.session.user._id });
 
             res.render('user/orders', {
                 user,
                 cart,
                 orders,
-                wishlist: false,
+                wishlist,
                 dates: null,
                 message: req.flash()
             })
@@ -360,12 +364,13 @@ module.exports = {
             const order = await orderModel.findOne({ _id: orderId }).populate('items.productId')
 
             const user = await userModel.findOne({ email: req.session.user.email });
+            const wishlist = user.wishlist
             const cart = await cartModel.findOne({ userId: req.session.user._id });
 
             res.render('user/orderDetails', {
                 user,
                 cart,
-                wishlist: false,
+                wishlist,
                 order
             })
         } catch (error) {

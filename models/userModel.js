@@ -24,7 +24,13 @@ const userSchema = new mongoose.Schema({
     },
     walletAmount :{
         type: Number
-    }
+    },
+    wishlist: [{
+        productId: {
+            type:mongoose.Schema.Types.ObjectId,
+            ref: "product"}
+      }],
+    
 }, { timestamps: true });
 
 

@@ -1,0 +1,104 @@
+<%- include ('../layouts/header') %>
+    <%- include ('../partials/userHeader') %>
+
+<% if (wishlist.length === 0) { %>
+    <div class="h2 text-center">
+        No items in wishlist yet! Add some now!
+    </div>
+    <div class="col-md-12 text-center">
+        <video autoplay loop muted style="height: 500px;">
+            <source src="/images/empty.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <% } else { %>
+        <div class="container mt-5">
+            <h5 class="mb-4">My Wishlist</h5>
+            <div class="row">
+            <% user.wishlist.forEach(function(wish) { %>
+                <div class="col-md-12">
+                    <div class="card tickerTimes mb-3">
+                        <div class="row no-gutters">
+                            <div class="col-md-2">
+                                <img src="/uploads/<%= wish.productId?.productImage1 %>" alt="Product 1" class="img-fluid">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card-body">
+                                    <h6 class="card-title product-name"><%= wish.productId?.name %></h6>
+                                    <strong class="card-text">₹<%= parseInt(wish.productId?.price) %></strong>
+                                </div>
+                            </div>
+                            <div class="col-md-4 d-flex align-items-center">
+                                <a onclick="addToCart('<%=wish.productId?._id%>','<%=wish.productId?.name%>')" class="btn btn-info">Add To Cart</a>
+                                <a href="/removeFromWishlist/<%= wish.productId?._id %>" class="btn btn-danger ms-2 remove-button">Remove From Wishlist</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+</div>
+
+<style>
+.product-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>
+
+<script>
+    function addToCart(id, name) {
+                console.log(id);
+
+                $.ajax({
+                    url: `/addToCart/${id}`,
+                    method: 'POST',
+                    dataType: 'json', // Expect JSON response
+                    contentType: 'application/json', // Set request content type
+                })
+                    .done(function (data) {
+                        console.log(data);
+                        if(data.success){
+                            swal(name, 'is added to cart', 'success');
+                        const cartCountElement = document.getElementById('cart-count');
+                        if (cartCountElement) {
+                            cartCountElement.textContent = data.cartCount;
+                        }
+
+                        }else{
+                            swal(data.error);
+                        }
+                        
+                    })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        console.error(errorThrown);
+                        swal("Cannot add item to cart", "Kindly try after sometime.");
+                    });
+            }
+            const removeButtons = document.querySelectorAll('.remove-button')
+                removeButtons.forEach((button) => {
+                    button.addEventListener('click', (event) => {
+                        event.preventDefault()
+
+                        Swal.fire({
+                            title: 'Are you sure?',
+                            text: "You won't be able to revert this!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Confirm'
+                        }).then((result) => {
+                            if(result.isConfirmed){
+                                window.location.href = button.href
+                            }
+                            
+                        })
+                    })
+                })
+</script>
+
+<%- include ('../partials/userFooter') %>
+<%- include ('../layouts/footer') %>

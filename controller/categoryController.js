@@ -106,6 +106,7 @@ module.exports = {
 
             if (req.session.user) {
                 const user = await userModel.findById(req.session.user._id)
+                const wishlist = user.wishlist
                 const cart = await cartModel.findOne({ userId: req.session.user._id })
                 res.render('user/tennis', {
                     currentPage,
@@ -115,7 +116,7 @@ module.exports = {
                     brands,
                     cart,
                     categories,
-                    wishlist: false,
+                    wishlist,
                     message: req.flash()
                 })
             } else {
@@ -162,6 +163,7 @@ module.exports = {
 
             if (req.session.user) {
                 const user = await userModel.findById(req.session.user._id)
+                const wishlist = user.wishlist
                 const cart = await cartModel.findOne({ userId: req.session.user._id })
                 res.render('user/badminton', {
                     currentPage,
@@ -171,7 +173,7 @@ module.exports = {
                     brands,
                     cart,
                     categories,
-                    wishlist: false,
+                    wishlist,
                     message: req.flash()
                 })
             } else {
@@ -217,6 +219,7 @@ module.exports = {
 
             if (req.session.user) {
                 const user = await userModel.findById(req.session.user._id)
+                const wishlist = user.wishlist
                 const cart = await cartModel.findOne({ userId: req.session.user._id })
                 res.render('user/squash', {
                     currentPage,
@@ -226,7 +229,7 @@ module.exports = {
                     brands,
                     cart,
                     categories,
-                    wishlist: false,
+                    wishlist,
                     message: req.flash()
                 })
             } else {
@@ -272,6 +275,7 @@ module.exports = {
     
                 if (req.session.user) {
                     const user = await userModel.findById(req.session.user._id)
+                    const wishlist = user.wishlist
                     const cart = await cartModel.findOne({ userId: req.session.user._id })
                     res.render('user/subCategory', {
                         currentPage,
@@ -281,7 +285,7 @@ module.exports = {
                         brands,
                         cart,
                         categories,
-                        wishlist: false,
+                        wishlist,
                         message: req.flash()
                     })
                 } else {

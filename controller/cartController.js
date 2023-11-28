@@ -69,6 +69,8 @@ module.exports = {
         try {
             const user = await userModel.findOne({ email: req.session.user.email })
 
+           
+        const wishlist = user.wishlist
             await cartService.calculateCartTotal(req.session.user._id)
             const cart = await cartModel.findOne({ userId: user._id }).populate('items.productId')
             const coupons = await couponModel.find({})
@@ -92,7 +94,7 @@ module.exports = {
                 user,
                 products,
                 cart,
-                wishlist: false,
+                wishlist,
                 message: req.flash(),
                 coupons
             })
@@ -149,7 +151,7 @@ module.exports = {
             const cartAfterUpdate = await cartModel.findOne({userId: req.session.user._id})
             .populate('couponId')
            
-            console.log(cartAfterUpdate,'cartafterupdateklllllllllllllllllllllllllllllllllll');
+           
             const couponDiscountAmountAfterInc = cartAfterUpdate.isCouponApplied ? cartAfterUpdate.couponId.discountAmount : 0
 
             

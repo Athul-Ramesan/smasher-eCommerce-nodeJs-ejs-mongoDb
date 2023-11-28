@@ -8,7 +8,7 @@ const cartController = require('../controller/cartController')
 const addressController = require('../controller/addressController');
 const orderController = require('../controller/orderController');
 const categoryController = require('../controller/categoryController');
-
+const wishlistController = require('../controller/wishlistController')
 
 router.get('/', userController.landingPage)
 router.get('/home',auth.verifyUser,userController.home)    ///here auth auth.verifyUser,
@@ -61,6 +61,9 @@ router.get('/removeFromCart/:id',auth.auth,auth.verifyUser,cartController.getRem
 router.post('/applyCoupon',auth.auth,auth.verifyUser,cartController.applyCoupon)
 router.delete('/applyCoupon',auth.auth,auth.verifyUser,cartController.removeCoupon)
 
+router.get('/wishlist',auth.auth,auth.verifyUser,wishlistController.getWishlist)
+router.post('/addToWishlist/:id',auth.auth,auth.verifyUser,wishlistController.addToWishlist)
+router.get('/removeFromWishlist/:id',auth.auth,auth.verifyUser,wishlistController.removeFromWishlist)
 router.get('/profile',auth.auth, userController.getProfile)
 router.post('/editUserDetails',userController.editUserDetails)
 

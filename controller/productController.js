@@ -362,13 +362,14 @@ module.exports = {
 
         try {
             const user = await userModel.findOne({ email: req.session.user.email });
+            const wishlist = user.wishlist
             const cart = await cartModel.findOne({ userId: req.session.user._id });
             const product = await productModel.findOne({ _id: productId }).populate('brand')
 
             console.log(product, 'product');
             console.log(cart, 'cart');
             console.log(user, 'user');
-            res.render('user/product-view', { user, product, cart, wishlist: false })
+            res.render('user/product-view', { user, product, cart, wishlist})
         } catch (error) {
            console.log(error);
         }
@@ -395,6 +396,7 @@ module.exports = {
 
             if (req.session.user) {
                 const user = await userModel.findById(req.session.user._id)
+                const wishlist = user.wishlist
                 const cart = await cartModel.findOne({ userId: req.session.user._id })
                 res.render('user/shop-product', {
                     currentPage,
@@ -404,7 +406,7 @@ module.exports = {
                     brands,
                     cart,
                     categories,
-                    wishlist: false,
+                    wishlist,
                     message: req.flash()
                 })
             } else {
@@ -446,6 +448,7 @@ module.exports = {
                     const products = await productModel.find({ brand: brand, category: category, active: true })
                     console.log(products);
                     const user = await userModel.findById(req.session.user._id)
+                    const wishlist = user.wishlist
                     const cart = await cartModel.findOne({ userId: req.session.user._id })
 
                     res.render('user/shop-product', {
@@ -457,7 +460,7 @@ module.exports = {
                         message: req.flash(),
                         brands,
                         categories,
-                        wishlist: false
+                        wishlist
                     })
 
                 } else if (brand || category) {
@@ -471,6 +474,7 @@ module.exports = {
                     })
                     console.log(products);
                     const user = await userModel.findById(req.session.user._id)
+                    const wishlist = user.wishlist
                     const cart = await cartModel.findOne({ userId: req.session.user._id })
                     res.render('user/shop-product', {
                         currentPage,
@@ -480,7 +484,7 @@ module.exports = {
                         cart,
                         brands,
                         categories,
-                        wishlist: false,
+                        wishlist,
                         message: req.flash()
                     })
                 }
@@ -547,6 +551,7 @@ module.exports = {
 
                     if (req.session.user) {
                         const user = await userModel.findById(req.session.user._id)
+                        const wishlist = user.wishlist
                         const cart = await cartModel.findOne({ userId: req.session.user._id })
                         res.render('user/shop-product', {
                             products,
@@ -554,7 +559,7 @@ module.exports = {
                             brands,
                             cart,
                             categories,
-                            wishlist: false,
+                            wishlist,
                             message: req.flash()
                         })
                     } else {

@@ -292,7 +292,7 @@
                                                 <li><a class="add-to-cart-button"
                                                         onclick="addToCart('<%= product._id%>','<%=product.name%>')"><i
                                                             class="fa fa-shopping-cart"></i></a></li>
-                                                <li><a><i class="far fa-heart"></i></a></li>
+                                                <li><a><i onclick="addToWishlist('<%= product._id%>')" class="far fa-heart"></i></a></li>
                                             </ul>
                                             <%}else{ %>
                                                 <ul class="product-links">
@@ -386,7 +386,34 @@
                     });
             }
 
+            function addToWishlist(productId){
+                console.log(productId);
+                $.ajax({
+                    url: `/addToWishlist/${productId}`,
+                    method: 'POST',
+                    dataType: 'json', // Expect JSON response
+                    contentType: 'application/json', // Set request content type
+                })
+                    .done(function (data) {
+                        console.log(data);
+                        if(data.success){
+                            swal(name, 'is added to wishlist', 'success');
+                        const wishlistCountElement = document.getElementById('wishlist-count');
+                        if (wishlistCountElement) {
+                            wishlistCountElement.textContent = data.wishlistCount;
+                        }
 
+                        }else{
+                            swal(data.error);
+                        }
+                        
+                    })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        console.error(errorThrown);
+                        swal("Cannot add item to wishlist", "Kindly try after sometime.");
+                    });
+            
+            }
 
 
             function redirectToLoginPage() {
